@@ -84,3 +84,10 @@ production:
   database: Ecommerce_website_production
   username: Ecommerce_website
   password: <%= ENV['ECOMMERCE_WEBSITE_DATABASE_PASSWORD'] %>
+
+
+# $ rails db:creat
+# NOTICE:  identifier "spring app    | 電商網站 | started 0 secs ago | development mode" will be truncated to "spring app    | 電商網站 | started 0 secs ago | development"
+# Created database 'Ecommerce_website_development' （開發用）
+# NOTICE:  identifier "spring app    | 電商網站 | started 0 secs ago | development mode" will be truncated to "spring app    | 電商網站 | started 0 secs ago | development"
+# Created database 'Ecommerce_website_test' （測試用）
