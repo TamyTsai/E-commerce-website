@@ -13,6 +13,7 @@
 
  * 由於webpacker現已停用，所以本專案實際上還是使用專案原本的編譯方式（Assets Pipeline）（被 Sprockets 來打包）
  *= require bulma/css/bulma.min.css
+ *= require @fortawesome/fontawesome-free/css/all.min.css
  * 路徑不用寫nodes_modules
 
  *= require_tree .
