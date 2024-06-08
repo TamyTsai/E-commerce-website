@@ -11,4 +11,11 @@ Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
-import "controllers"
+import "controllers";
+// stimulus.js的東西
+
+// 把進入點（前端入口） 變成 index.js
+import "styles/frontend/index.js";
+// index.js已經引入application.scss，而application.scss已經引入bulma.css
+// 寫法上可省略index.js
+// import "styles/frontend";

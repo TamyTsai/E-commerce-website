@@ -1,0 +1,6 @@
+// 全站（前端）都會用到的樣式 放在此
+
+@import 'bulma';
+// 完整路徑寫法： @import 'bulma/css/bulma.min.css'
+// 寫簡寫的話（@import 'bulma';），他會去看你這個套件（bulma）的package.json檔案 的 style標籤（key） 所對應的 值（value）
+// package.json： "style": "css/bulma.min.css",

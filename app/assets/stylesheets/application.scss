@@ -10,6 +10,14 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
+
+ * 由於webpacker現已停用，所以本專案實際上還是使用專案原本的編譯方式（Assets Pipeline）（被 Sprockets 來打包）
+ *= require bulma/css/bulma.min.css
+ * 路徑不用寫nodes_modules
+
  *= require_tree .
  *= require_self
  */
+
+// 全站（前端）都會用到的樣式 放在此
+
