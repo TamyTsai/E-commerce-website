@@ -15,18 +15,18 @@ import "controllers";
 // stimulus.js的東西
 
 // 本檔案為進入點
-// 想把這個檔案變成前端（前台）專屬進入點
+// 想把這個檔案變成前端（後台）專屬進入點
 
-import "styles/frontend";
+import "styles/backend";
 // index.js已經引入application.scss，而application.scss已經引入bulma.css
-// import "styles/frontend/index.js"
+// import "styles/backend/index.js"
 // 寫法上可省略index.js
-// import "styles/frontend"; 會把該目錄中所有檔案引入
-// 引入前台專屬的樣式
+// import "styles/backend"; 會把該目錄中所有檔案引入
+// 引入後台專屬的樣式
 import "styles/shared";
 // 引入前後台共用的樣式
 
-import "scripts/frontend";
-// 引入前台專屬的js
+import "scripts/backend";
+// 引入後台專屬的js
 import "scripts/shared";
 // 引入前後台共用的js
