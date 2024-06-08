@@ -1,7 +1,11 @@
 # Note: You must restart bin/webpack-dev-server for changes to take effect
+# 設定檔更動要生效，需要重啟webpack-dev-server
+
+# webpacker設定檔
 
 default: &default
-  source_path: app/javascript
+  # source_path: app/javascript
+  source_path: app/frontend # 因為原本的javascript資料夾包了很多前端的東西，包括圖片、文字、字型、css、js等，所以改名為frontend資料夾
   source_entry_path: packs
   public_root_path: public
   public_output_path: packs
