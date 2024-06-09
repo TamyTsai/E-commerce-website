@@ -11,6 +11,12 @@ Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
+
+const images = require.context('../images', true)
+const imagePath = (name) => images(name, true)
+// 如此一來，在其他地方引入圖片時 就可以寫 <%= image_pack_tag 'rails.png' %>
+// 就會到webpacker進入點來源資料夾 的 images 資料夾下找圖片
+
 import "controllers";
 // stimulus.js的東西
 
