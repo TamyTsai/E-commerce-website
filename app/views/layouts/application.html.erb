@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <meta name="turbolinks-cache-control" content="no-cache">
+    <!-- 專門負責turbolinks的暫存控制 不要快取-->
+    <!-- 不要快取 速度上會慢一點 因為回上一頁時不會做快取 -->
+    <!-- 但這樣設定可以 在享受turbolinks好處的同時，又不用管其 暫存引發的多次觸發js問題 -->
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
@@ -13,6 +17,10 @@
   <body>
     <%= render 'shared/frontend/navbar' %>
     <!-- 路徑起始點為views -->
+    <!-- 不用寫最前面之底線 及 副檔名 -->
+    <!-- 雖然用partial render的手法，會讓效能差一點點（讀取檔案需要效能），但會提升程式碼可讀性 -->
+    <%= render 'shared/frontend/top_menu' %>
+    <%= render 'shared/frontend/footer' %>
     <%= yield %>
   </body>
 </html>
