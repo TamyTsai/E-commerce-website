@@ -20,7 +20,10 @@
     <!-- 不用寫最前面之底線 及 副檔名 -->
     <!-- 雖然用partial render的手法，會讓效能差一點點（讀取檔案需要效能），但會提升程式碼可讀性 -->
     <%= render 'shared/frontend/top_menu' %>
-    <%= render 'shared/frontend/footer' %>
+
     <%= yield %>
+    
+    <%= render 'shared/frontend/footer' %>
+    
   </body>
 </html>
