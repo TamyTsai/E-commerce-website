@@ -1,0 +1,44 @@
+<!-- 會員註冊頁面 -->
+
+
+<section class="container">
+<!-- Bulma的container會有一點margin空間 -->
+<div class="columns">
+  <div class="column is-3">
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <div class="field">
+        <%= f.label :email, class: 'label' %>
+        <!-- class label是block型態 所以不用再手動br換行 -->
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'input' %>
+      </div>
+
+      <div class="field">
+        <%= f.label :password, '密碼', class: 'label' %>
+        <% if @minimum_password_length %>
+        <em>(至少 <%= @minimum_password_length %> 個字元)</em>
+        <% end %>
+        <%= f.password_field :password, autocomplete: "new-password", class: 'input' %>
+      </div>
+
+      <div class="field">
+        <%= f.label :password_confirmation, '確認密碼', class: 'label' %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'input' %>
+      </div>
+
+      <div class="actions">
+        <%= f.submit "註冊", class: 'button is-primary is-medium' %>
+      </div>
+    <% end %>
+
+    <%= render "devise/shared/links" %>
+  </div>
+
+  <div class="column is-9">
+    <%= image_tag 'https://images.unsplash.com/photo-1568043210943-0e8aac4b9734?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D', alt: '註冊圖片' %>
+  </div>
+</div>
+ 
+
+</section>
