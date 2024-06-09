@@ -1,0 +1,34 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+
+ * 由於webpacker現已停用，所以本專案實際上還是使用專案原本的編譯方式（Assets Pipeline）（被 Sprockets 來打包）
+ *= require bulma/css/bulma.min.css
+ *= require @fortawesome/fontawesome-free/css/all.min.css
+ * 路徑不用寫nodes_modules
+
+ *= require_tree .
+ *= require_self
+ */
+
+// 全站（前後台）共用的樣式 放在此
+
+// 前台
+// 訂閱電子報區塊
+section.subscribe {
+    // section標籤 且為 subscribe類別
+    margin-top: 1em;
+
+    h3 {
+        margin-bottom: 1em;
+    }
+}

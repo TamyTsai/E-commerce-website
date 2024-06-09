@@ -2,3 +2,13 @@
 
 // Bulma跑馬燈css
 @import 'bulma-carousel';
+
+// 訂閱電子報區塊
+section.subscribe {
+    // section標籤 且為 subscribe類別
+    margin-top: 1em;
+
+    h3 {
+        margin-bottom: 1em;
+    }
+}
