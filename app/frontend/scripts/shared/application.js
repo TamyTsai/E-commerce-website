@@ -2,7 +2,7 @@
 
 // Bulma漢堡選單js
 // https://bulma.io/documentation/components/navbar/
-document.addEventListener('DOMContentLoaded', () => { // Rails 6 中Turbo links預設為開啟 所以如果用 DOMContentLoaded 可能沒辦法間聽到正確之事件，要改用turbolinks:load
+document.addEventListener('turbolinks:load', () => { // Rails 6 中Turbo links預設為開啟 所以如果用 DOMContentLoaded 可能沒辦法間聽到正確之事件，要改用turbolinks:load
 
     // Get all "navbar-burger" elements
     const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
@@ -22,4 +22,15 @@ document.addEventListener('DOMContentLoaded', () => { // Rails 6 中Turbo links�
       });
     });
   
+  });
+
+  // 提醒視窗叉叉功能
+  document.addEventListener('turbolinks:load', () => {
+    (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+      const $notification = $delete.parentNode;
+  
+      $delete.addEventListener('click', () => {
+        $notification.parentNode.removeChild($notification);
+      });
+    });
   });

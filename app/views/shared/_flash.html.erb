@@ -1,0 +1,18 @@
+<div class="notification is-primary is-marginless">
+  <!-- is-marginless 沒有外邊界 -->
+  <button class="delete"></button>
+  <i class="fa-regular fa-comment"></i> <%= notice %>
+</div>
+
+<!-- 提醒視窗叉叉功能js（無法使用AssetsPipeline或Webpacke者使用） -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+        const $notification = $delete.parentNode;
+
+        $delete.addEventListener('click', () => {
+          $notification.parentNode.removeChild($notification);
+        });
+      });
+    });
+</script>
