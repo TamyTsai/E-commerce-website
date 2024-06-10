@@ -276,7 +276,7 @@ Devise.setup do |config|
   # 指定omniaauth要用哪個第三方平台
   # 範例是用fb，但fb回來時本機不一定有辦法收，網址要先處理過，才能接收結果
   # google比較方便，本機可以直接收
-  # https://github.com/heartcombo/devise/wiki/OmniAuth%3A-Overview
+  # https://github.com/heartcombo/devise/wiki/OmniAuth%3A-Overview：
   # Next, you need to declare the provider in your config/initializers/devise.rb:
   # config.omniauth :facebook, "APP_ID", "APP_SECRET"
   # https://www.rubydoc.info/gems/omniauth-google-oauth2/1.1.2
