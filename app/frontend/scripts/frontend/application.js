@@ -1,4 +1,4 @@
-// 全站（前端）都會用到的js 放在此
+// 全站（前台）都會用到的js 放在此
 
 // Bulma跑馬燈js
 import bulmaCarousel from 'bulma-carousel';

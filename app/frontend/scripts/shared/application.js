@@ -1,4 +1,4 @@
-// 前後端共用之js
+// 前後台共用之js
 
 // Bulma漢堡選單js
 // https://bulma.io/documentation/components/navbar/

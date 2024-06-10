@@ -10,10 +10,12 @@
     <!-- 不要快取 速度上會慢一點 因為回上一頁時不會做快取 -->
     <!-- 但這樣設定可以 在享受turbolinks好處的同時，又不用管其 暫存引發的多次觸發js問題 -->
 
-    <%= stylesheet_link_tag 'shared/application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'backend', 'data-turbolinks-track': 'reload'  %>
-    <!-- 會去找frontend（webpack資料夾）下的packs的backend.js（此檔案已引入stimulus.js及 所有 前台 的 styles及scripts） -->
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload'  %>
+    <!-- javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' -->
+    <!-- 會去找frontend（webpack資料夾）下的packs的application.js（此檔案已引入stimulus.js及 所有 前台 的 styles及scripts） -->
     <!-- javascript_include_tag 'shared', 'data-turbolinks-track': 'reload' -->
+    <!-- webpacker無法編譯時，那就交給 Sprockets 編譯，採javascript_include_tag寫法 -->
   </head>
 
   <body>

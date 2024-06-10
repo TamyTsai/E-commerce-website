@@ -13,6 +13,7 @@
 
  * 由於webpacker現已停用，所以本專案實際上還是使用專案原本的編譯方式（Assets Pipeline）（被 Sprockets 來打包）
  * 路徑不用寫nodes_modules
+ * Bulma輪播圖
  *= require bulma-carousel/dist/css/bulma-carousel.min.css
 
  *= require_tree .

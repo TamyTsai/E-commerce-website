@@ -1,9 +1,8 @@
 // assets 目錄下的檔案 import 方式，以 app/asset/javascripts/application.js 這支檔案為例，這是一支 manifest 檔案，主要用來告訴 Sprockets 說哪些檔案是要被載入最後要被包起來壓縮的，最後這支檔案裡面所有的東西就會被包成 application.js 這支檔案，也是我們 layout/application.html.erb 中的 javascript_include_tag 'application' 中的檔案
 
-//= require jquery
-//= require jquery_ujs
-//= require_tree ./backend
-//= require_tree ./frontend
+// require jquery
+// require jquery_ujs
+//= require_tree .
 
 // https://gogojimmy.net/2012/07/03/understand-assets-pipline/
 // 再來是 assets 目錄下的檔案 import 方式，以 app/asset/javascripts/application.js 這支檔案為例，這是一支 manifest 檔案，主要用來告訴 Sprockets 說哪些檔案是要被載入最後要被包起來壓縮的，最後這支檔案裡面所有的東西就會被包成 application.js 這支檔案，也是我們 layout/application.html.erb 中的 javascript_include_tag 'application' 中的檔案，打開這支檔案除了上面的說明外只有這三行：
