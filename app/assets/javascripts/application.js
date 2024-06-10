@@ -19,3 +19,38 @@
 // require_self [路徑] 告訴 Sprockets 再載入其他的檔案前，「先將自己的內容插入」。
 // depend_on [路徑] 宣告依賴於某支 js，在需要通知某支快取的 assets 過期時非常實用。
 // stub [路徑] 將路徑中的 assets 加入黑名單，所有其他的 require 都不會將他載入。
+
+// Bulma漢堡選單js
+// https://bulma.io/documentation/components/navbar/
+document.addEventListener('DOMContentLoaded', () => { // Rails 6 中Turbo links預設為開啟 所以如果用 DOMContentLoaded 可能沒辦法間聽到正確之事件，要改用turbolinks:load
+
+    // Get all "navbar-burger" elements
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+  
+    // Add a click event on each of them
+    $navbarBurgers.forEach( el => {
+      el.addEventListener('click', () => {
+  
+        // Get the target from the "data-target" attribute
+        const target = el.dataset.target;
+        const $target = document.getElementById(target);
+  
+        // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+        el.classList.toggle('is-active');
+        $target.classList.toggle('is-active');
+  
+      });
+    });
+  
+  });
+
+  // 提醒視窗叉叉功能
+  document.addEventListener('turbolinks:load', () => {
+    (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+      const $notification = $delete.parentNode;
+  
+      $delete.addEventListener('click', () => {
+        $notification.parentNode.removeChild($notification);
+      });
+    });
+  });
