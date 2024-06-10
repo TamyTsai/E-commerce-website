@@ -27,6 +27,12 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.4', require: false
 # devise套件 會員系統
 gem 'devise', '~> 4.9', '>= 4.9.4'
+# devise套件 對 OAuth開放授權 的實作 這裡對google開放授權
+gem 'omniauth-google-oauth2', '~> 1.1', '>= 1.1.2'
+# figaro 用來設定全域環境變數（放到config > application.yml） 並讓該檔不受git追蹤
+gem 'figaro', '~> 1.2'
+# $ bundle
+# $ figaro install
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

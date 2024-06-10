@@ -272,6 +272,15 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
+  config.omniauth :google_oauth2, ENV['google_app_id'],  ENV['google_app_secret']
+  # 指定omniaauth要用哪個第三方平台
+  # 範例是用fb，但fb回來時本機不一定有辦法收，網址要先處理過，才能接收結果
+  # google比較方便，本機可以直接收
+  # https://github.com/heartcombo/devise/wiki/OmniAuth%3A-Overview
+  # Next, you need to declare the provider in your config/initializers/devise.rb:
+  # config.omniauth :facebook, "APP_ID", "APP_SECRET"
+  # https://www.rubydoc.info/gems/omniauth-google-oauth2/1.1.2
+  # APP ID（用戶端編號）、APP KEY（用戶端密鑰匙）
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
