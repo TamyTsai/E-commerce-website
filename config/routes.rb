@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   # devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks' }
   # controllers: { omniauth_callbacks: 'users/omniauth_callbacks' } 表示 使用者透過第三方平台同意登入後 要打回來到哪個controller
 
-  root 'products#index' # 首頁設定在 商品列表頁面
+  root 'products#index' # 首頁（ / ）設定在 商品列表頁面
   # products控制器 index action、views > products > index.html.erb
   # root    GET    /    products#index
 
@@ -16,5 +16,22 @@ Rails.application.routes.draw do
   # products是前台才會使用到的路徑 而前台只要可以 列出商品清單 及可查看單一商品內頁 即可
   # products    GET    /products(.:format)                products#index
   # product     GET    /products/:id(.:format)            products#show
-  
+
+  # 若在routes裡想要有 階層 的寫法 可以用namespace
+  # namespace :admin 都放 後台 相關路徑
+  namespace :admin do
+    root 'products#index' # admin首頁（後台的首頁：/admin）設定在 商品列表頁面
+    # 本namespace的首頁
+
+    resources :products
+    #  admin_products     GET      /admin/products(.:format)              admin/products#index
+    #                     POST     /admin/products(.:format)              admin/products#create
+    #   new_admin_product GET      /admin/products/new(.:format)          admin/products#new
+    #  edit_admin_product GET      /admin/products/:id/edit(.:format)     admin/products#edit
+    #       admin_product GET      /admin/products/:id(.:format)          admin/products#show
+    #                     PATCH    /admin/products/:id(.:format)          admin/products#update
+    #                     PUT      /admin/products/:id(.:format)          admin/products#update
+    #                     DELETE   /admin/products/:id(.:format)          admin/products#destroy
+  end
+
 end
