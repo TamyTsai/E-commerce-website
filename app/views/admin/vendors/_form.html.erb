@@ -1,0 +1,21 @@
+<%= form_with(model: [:admin, vendor]) do |form| %>
+<!-- 本來是寫model: vendor，但現在有namespace admin，所以要寫 model: [:admin, vendor]，弄成一個陣列，且裡面要標記model所屬的namespace -->
+<!-- 這樣寫，表單按下送出的時候，會猜到要往哪裡送，admin路徑就會正確 -->
+<!-- 沒寫namespace的話 就會往前台的vendors資料表送（但前台沒有這個資料表） -->
+    <div class="field">
+      <%= form.label :title, '廠商名稱', class: 'label' %>
+      <%= form.text_field :title, class: 'input' %>
+    </div>
+  
+    <div class="field">
+      <%= form.label :description, '說明', class: 'label' %>
+      <%= form.text_area :description, class: 'textarea' %>
+    </div>
+  
+    <div class="field">
+      <%= form.check_box :online %>
+      <%= form.label :online, '正常營運中？', class: 'checkbox' %>
+    </div>
+  
+    <%= form.submit class: 'button is-primary is-medium' %>
+<% end %>

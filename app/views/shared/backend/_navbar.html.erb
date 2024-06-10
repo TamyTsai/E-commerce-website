@@ -1,8 +1,15 @@
 <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item" href="/admin"> <!-- 點擊logo 導回後台首頁 -->
+
+    <%= link_to admin_root_path, class: 'navbar-item' do %>
+      <i class="fa-solid fa-house"></i>
+    <% end %>
+    <!-- link to 的另一種寫法 想要在link裡面包圖片、icon等 用 -->
+    <!-- admin_root_path 因為routes李有設定admin命名空間的首頁 所以這裡就會連回admin的首頁（後台首頁） -->
+
+    <!-- <a class="navbar-item" href="/admin"> 點擊logo 導回後台首頁
         <i class="fa-solid fa-house"></i>
-    </a>
+    </a> -->
 
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
       <span aria-hidden="true"></span>
@@ -14,13 +21,8 @@
 
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
-      <a class="navbar-item">
-        Home
-      </a>
-
-      <a class="navbar-item">
-        Documentation
-      </a>
+      <%= link_to "廠商", admin_vendors_path, class: 'navbar-item' %>
+      <!-- admin_vendors_path 為 廠商列表頁面路徑（index） -->
     </div>
   </div>
 </nav>

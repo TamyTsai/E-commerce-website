@@ -1,0 +1,4 @@
+<h1 class="title">編輯廠商</h1>
+
+<%= render 'form', vendor: @vendor %>
+<!-- 實體變數@vendor是controller給的，把他塞到區域變數vendor後，再給局部渲染檔案，讓局部渲染檔案處於被動被餵變數的地位，不要主動去空中抓，如此比較不容易因抓不到壞掉 -->

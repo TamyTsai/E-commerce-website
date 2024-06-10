@@ -32,6 +32,8 @@ Rails.application.routes.draw do
     #                     PATCH    /admin/products/:id(.:format)          admin/products#update
     #                     PUT      /admin/products/:id(.:format)          admin/products#update
     #                     DELETE   /admin/products/:id(.:format)          admin/products#destroy
+
+    resources :vendors, expect: [:show] # 不需要 顯示單一廠商資料的頁面（因為欄位很少，內容也不長，所以有index所有廠商資料列表就夠了）
   end
 
 end
