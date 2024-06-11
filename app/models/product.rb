@@ -11,6 +11,8 @@ class Product < ApplicationRecord
 
   acts_as_paranoid
 
+  has_rich_text :description # 不用真的去開description欄位 他是一個虛擬欄位
+
   validates :name, presence: true # 驗證 商品名稱必填
   validates :list_price, :sell_price, numericality: { greater_than: 0, allow_nil: true}
   # 定價與售價欄位需為數字（Rails API可以查有哪些方法可用），數字可不填（還沒上架的商品 可能還沒確定價格），但填了一定要是大於零的數字

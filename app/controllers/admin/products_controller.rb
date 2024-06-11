@@ -71,7 +71,8 @@ class Admin::ProductsController < Admin::BaseController
     private
 
     def product_parms # 清洗參數
-        params.require(:product).permit(:name, :vendor_id, :list_price, :sell_price, :on_sell)
+        params.require(:product).permit(:name, :vendor_id, :list_price, :sell_price, :on_sell, :description)
+        # 雖然 description 只是 action text的虛擬欄位 但一樣會被過濾掉，所以要來這裡加上，讓其可以順利通過強參數
     end
 
     def find_product
