@@ -9,6 +9,8 @@ class Product < ApplicationRecord
   # friendly id功能不只商品會用到，廠商等也會用到，所以將 整段程式碼 整理到concerns，讓程式碼可以不用重覆寫，提升再用性
   include CodeGenerator
 
+  acts_as_paranoid
+
   validates :name, presence: true # 驗證 商品名稱必填
   validates :list_price, :sell_price, numericality: { greater_than: 0, allow_nil: true}
   # 定價與售價欄位需為數字（Rails API可以查有哪些方法可用），數字可不填（還沒上架的商品 可能還沒確定價格），但填了一定要是大於零的數字
