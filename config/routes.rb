@@ -23,17 +23,19 @@ Rails.application.routes.draw do
     root 'products#index' # admin首頁（後台的首頁：/admin）設定在 商品列表頁面
     # 本namespace的首頁
 
-    resources :products
+    resources :products, except: [:show]
     #  admin_products     GET      /admin/products(.:format)              admin/products#index
     #                     POST     /admin/products(.:format)              admin/products#create
     #   new_admin_product GET      /admin/products/new(.:format)          admin/products#new
     #  edit_admin_product GET      /admin/products/:id/edit(.:format)     admin/products#edit
-    #       admin_product GET      /admin/products/:id(.:format)          admin/products#show
     #                     PATCH    /admin/products/:id(.:format)          admin/products#update
     #                     PUT      /admin/products/:id(.:format)          admin/products#update
     #                     DELETE   /admin/products/:id(.:format)          admin/products#destroy
 
-    resources :vendors, expect: [:show] # 不需要 顯示單一廠商資料的頁面（因為欄位很少，內容也不長，所以有index所有廠商資料列表就夠了）
+
+    resources :vendors, except: [:show] # 不需要 顯示單一廠商資料的頁面（因為欄位很少，內容也不長，所以有index所有廠商資料列表就夠了）
+    # 多開路徑會浪費額外資源，且會有資安風險
+
   end
 
 end
