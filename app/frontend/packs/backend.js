@@ -11,8 +11,10 @@ Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
 
+// 啟動 action text
 require("trix")
 require("@rails/actiontext")
+
 
 import "controllers";
 // stimulus.js的東西
