@@ -35,6 +35,12 @@ gem 'figaro', '~> 1.2'
 # $ figaro install
 # paranoia 軟刪除
 gem 'paranoia', '~> 2.6', '>= 2.6.3'
+# friendly_id 幫你長出好看的網址
+gem 'friendly_id', '~> 5.5', '>= 5.5.1'
+# $ rails g migration AddSlugToUsers slug:uniq 不用執行這行，因為我們的products資料表本來就有建像slug的欄位（code商品代碼）
+# $ rails generate friendly_id
+#       create  db/migrate/20240611033654_create_friendly_id_slugs.rb
+#       create  config/initializers/friendly_id.rb
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
