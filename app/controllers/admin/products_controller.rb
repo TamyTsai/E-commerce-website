@@ -9,8 +9,11 @@
 
 class Admin::ProductsController < Admin::BaseController
 
-
     def index # 後台商品列表頁面 對應的action
+    end
+
+    def new
+        @product = Product.new
     end
     
 end

@@ -1,0 +1,46 @@
+<%= form_with(model: [:admin, product]) do |form| %>
+  <div class="columns">
+    <div class="column is-6">
+      <div class="field">
+        <%= form.label :name, '商品名稱', class: 'label' %>
+        <%= form.text_field :name, class: 'input is-medium' %>
+      </div>
+    </div>
+    <div class="column is-6">
+      <div class="field">
+        <%= form.label :vendor_id, '廠商', class: 'label' %>
+        <div class="select is-medium is-fullwidth">
+          <%= form.collection_select :vendor_id, Vendor.available, :id, :title %>
+          <!-- form.collection_select會做出 下拉式選單 -->
+          <!-- :vendor_id 下拉選單有這個選項，才能知道表單送出後 新建立的商品資料 要 寫入資料要寫到哪個廠商的商品欄位 -->
+          <!-- :vendor_id, :id, :title 為下拉選單的選項的資料送出後 要有的欄位-->
+          <!-- Vendor.available 下拉選單資料來源（可選的廠商 排除 非正常營業中的） -->
+          <!-- Vendor是類別 所以.available是 類別方法 -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="columns">
+    <div class="column">
+      <div class="field">
+        <%= form.label :list_price, '定價', class: 'label' %>
+        <%= form.number_field :list_price, class: 'input is-medium' %>
+        <!-- 數字型輸入框，在前端html就過濾掉非數字之輸入 -->
+      </div>
+    </div>
+    <div class="column">
+      <div class="field">
+        <%= form.label :sell_price, '售價', class: 'label' %>
+        <%= form.number_field :sell_price, class: 'input is-medium' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= form.check_box :on_sell %>
+    <%= form.label :on_sell, '是否上架？', class: 'checkbox' %>
+  </div>
+
+  <%= form.submit class: 'button is-primary is-medium' %>
+<% end %>
