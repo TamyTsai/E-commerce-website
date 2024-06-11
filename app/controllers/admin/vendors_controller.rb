@@ -14,6 +14,8 @@ class Admin::VendorsController < Admin::BaseController
             # Story.order('age DESC') 依照年齡大小反向排序
             # Story.order(age: :desc) 同上
             # Story.limit(5) 只取出5筆資料
+
+        @pagy, @vendors = pagy(Vendor.all)
     end
 
     def new # 對應新建廠商頁面

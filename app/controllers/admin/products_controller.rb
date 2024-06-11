@@ -27,6 +27,8 @@ class Admin::ProductsController < Admin::BaseController
         #   ↳ app/views/admin/products/index.html.erb:16
         #   Vendor Load (0.6ms)  SELECT "vendors".* FROM "vendors" WHERE "vendors"."deleted_at" IS NULL AND "vendors"."id" = $1  [["id", 1]]
 
+        @pagy, @products = pagy(Product.all)
+
     end
 
     def new # 後台 新增商品頁面 對應的action

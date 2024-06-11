@@ -12,5 +12,8 @@ class Admin::BaseController < ApplicationController
     # 這邊把 application.html.erb 作為前台專用公版，所以後台這裡要特別設定 layout公版 要去找 backend.html.erb檔案
     # 本 controller整個都套用 backend.html.erb作為layout
 
+    include Pagy::Backend
+    # 引入 分頁模組的Backend類別
+
 
 end

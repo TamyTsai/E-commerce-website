@@ -41,6 +41,8 @@ gem 'friendly_id', '~> 5.5', '>= 5.5.1'
 # $ rails generate friendly_id
 #       create  db/migrate/20240611033654_create_friendly_id_slugs.rb
 #       create  config/initializers/friendly_id.rb
+# pagy 分頁套件
+gem 'pagy', '~> 6.2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
