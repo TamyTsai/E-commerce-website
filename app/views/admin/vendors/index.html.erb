@@ -22,7 +22,7 @@
         <td><%= vendor.updated_at %></td>
         <td>
           <%= link_to "編輯", edit_admin_vendor_path(vendor), class: 'button is-light is-small' %>
-          <%= link_to "刪除", admin_vendor_path(vendor), method: :delete, data: {confirm: '確認刪除?!'}, class: 'button is-danger is-small' %>
+          <%= link_to "刪除", admin_vendor_path(vendor), method: :delete, data: {confirm: '確認刪除?'}, class: 'button is-danger is-small' %>
         </td>
       </tr>
     <% end %>

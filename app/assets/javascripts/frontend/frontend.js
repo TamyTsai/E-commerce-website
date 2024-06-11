@@ -3,7 +3,7 @@
 //= require bulma-carousel/dist/js/bulma-carousel.min.js
 
 // Bulma跑馬燈js
-document.addEventListener('DOMContentLoaded', () => { // ES6箭頭函式寫法
+document.addEventListener('DOMContentLoaded', () => { // ES6箭頭函式寫法 // Rails 6 中Turbo links預設為開啟 所以如果用 DOMContentLoaded 可能沒辦法間聽到正確之事件，要改用turbolinks:load
     let element = document.querySelector('#carousel');
 
     if (element) { // 若 id 為 carousel 的html元素 「存在」的話

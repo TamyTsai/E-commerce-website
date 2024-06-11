@@ -66,6 +66,33 @@ class Admin::VendorsController < Admin::BaseController
         end
     end
 
+    def destroy # 對應以DELETE動詞（事實上是GET DELETE是模擬的）進入的/admin/vendors/:id路徑（admin_vendor_path）（刪除已建立的廠商）
+        # admin_vendor   DELETE   /admin/vendors/:id(.:format)          admin/vendors#destroy {:expect=>[:show]}
+
+        @vendor.destroy
+        # ORM基本操作之D
+        # delete （直接刪掉）
+        # destroy （會經歷一連串callback）（真的把資料刪除，救不回來，由資料庫中抹除） 
+        # destroy_all(condition = nil)
+
+        # flash[:notice] = "廠商已刪除!"
+        # redirect_to admin_vendor_path # 回廠商列表頁
+
+        # 軟刪除：廠商下面有很多訂單、商品等，直接將廠商資料用destroy方法 由資料庫抹除，會導致商品訂單沒有所屬的廠商
+        # @vendor.update(deleted: True) 
+        # @vendor.update(deleted_at: Time.now) # 將當下的時間寫到vendors資料表中的deleted_at欄位
+        # 但這樣寫不太直覺，所以這種軟刪除的慣用手法 是 去覆寫destroy方法（去Vendor model覆寫）
+        # 最好的方法是用paranoia套件，會把當下時間寫入刪除時間欄位，且讀取資料時，會直接幫你篩選出 沒有紀錄刪除時間的資料（就不用自己寫default scope（預設查詢範圍）where篩）
+        # 安裝套件後，幫vendors資料表加入deleted_at欄位，並至Vendor model寫acts_as_paranoid
+
+        redirect_to admin_vendors_path, notice: "廠商已刪除!"
+
+        # 抓資料（before action已做，這裡直接有抓到特定廠商的實體變數可以用）
+        # 刪資料
+        # 跳提示
+        # 重新導向頁面
+    end
+
     private
     def vendor_params # 幫廠商資料做資料清洗（限定可通過的欄位）
         params.require(:vendor).permit(:title, :description, :online) #省略return之寫法
@@ -84,7 +111,7 @@ class Admin::VendorsController < Admin::BaseController
         # ORM基本操作之R
             # Candidate.first 找出第一筆候選人（物件、model、資料表中的一筆資料）資料
             # Candidate.last 找到最後一筆資料
-            # Candidate.find(1) 找到id = 1 的資料（出問題直接噴例外）
+            # Candidate.find(1) 找到id = 1 的資料（出問題直接噴例外）：在 開發模式 下 會噴 ActiveRecord::RecordNotFound，正式機 會噴500
             # Candidate.find_by(id: 1) 找到id = 1 的資料（找不到時 給nil）（undefined method `name' for nil:NilClass）（nil沒有name方法）
             # Candidate.find_by_sql("SQL語法") 
             # Candidate.first_each do |candidate|   ....  end

@@ -33,6 +33,8 @@ gem 'omniauth-google-oauth2', '~> 1.1', '>= 1.1.2'
 gem 'figaro', '~> 1.2'
 # $ bundle
 # $ figaro install
+# paranoia 軟刪除
+gem 'paranoia', '~> 2.6', '>= 2.6.3'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
