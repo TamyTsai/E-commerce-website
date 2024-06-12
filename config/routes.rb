@@ -38,4 +38,12 @@ Rails.application.routes.draw do
 
   end
 
+  namespace :api do
+    namespace :v1 do # 這樣之後有v2時，可以跟v1共存
+      post 'subscribe', to: 'utils#subscribe'
+      # 用post動詞 到utils controller的subscribe action
+      #  api_v1_subscribe    POST     /api/v1/subscribe(.:format)     api/v1/utils#subscribe
+    end
+  end
+
 end
