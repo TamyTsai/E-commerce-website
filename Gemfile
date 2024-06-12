@@ -44,6 +44,8 @@ gem 'friendly_id', '~> 5.5', '>= 5.5.1'
 #       create  config/initializers/friendly_id.rb
 # pagy 分頁套件
 gem 'pagy', '~> 6.2'
+# acts_as_list 清單拖拉套件
+gem 'acts_as_list', '~> 1.2', '>= 1.2.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

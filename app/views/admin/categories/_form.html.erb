@@ -1,0 +1,9 @@
+<%= form_with(model: [:admin, category]) do |form| %>
+<!-- model: [:路徑, 要傳進來的東西（要被局部渲染檔案帶來的區域變數）] -->
+<div class="field">
+    <%= form.label :name, '分類名稱', class: 'label' %>
+    <%= form.text_field :name, class: 'input is-medium' %>
+</div>
+
+    <%= form.submit class: 'button is-primary is-medium' %>
+<% end %>
