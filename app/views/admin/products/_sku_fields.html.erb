@@ -1,21 +1,22 @@
-<div class="columns nested-fields">
+<div class="columns nested-fields" data-new-record="<%= form.object.new_record? %>">
+  <!-- 給 data-new-record 屬性（名字隨便取） 一個 物件是否為新物件的布林值-->
     <div class="column is-6">
       <div class="field">
-        <%= form.label :spec, '規格', class: 'label' %>
-        <%= form.text_field :spec, class: 'input' %>
+        <%= form.text_field :spec, placeholder: '規格', class: 'input' %>
       </div>
     </div>
     <div class="column is-2">
       <div class="field">
-        <%= form.label :quantity, '數量', class: 'label' %>
-        <%= form.number_field :quantity, class: 'input' %>
+        <%= form.number_field :quantity, placeholder: '數量', class: 'input' %>
       </div>
     </div>
     <div class="column is-1">
       <div class="field">
-        X
+        <%= link_to "刪除", "#", class: 'button is-danger', data: {action: 'product-form#remove_sku'} %>
       </div>
     </div>
-    <div class="column">
-    </div>
+    <%= form.hidden_field :_destroy %>
+    <!-- 放一個名叫_destroy的隱藏欄位 -->
+    <!-- _destroy 為在做巢狀表單時 會用到的特殊寫法 -->
+    <!-- _destroy欄位 有資料的話 （已設定此欄位可通過 強參數資料清洗）送到後端 後端就會刪除該筆資料 -->
   </div>

@@ -87,6 +87,7 @@ class Admin::ProductsController < Admin::BaseController
         # model中accepts_nested_attributes_for :skus
         # skus_attributes: 為key，其值為一陣列
         # :_destroy 刪除庫存的時候 會有此參數 所以要讓他可通過
+        # _destroy 欄位送到後端 有值時 資料庫就會刪除該資料 而非更新
     end
 
     def find_product

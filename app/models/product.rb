@@ -27,6 +27,7 @@ class Product < ApplicationRecord
   # 第10章節
   # 可以有很多巢狀屬性 都是關於sku的
   # reject_if: :all_blank, allow_destroy: true ：若資訊完全是空的 就不允許寫入、允許刪除
+  # _destroy 欄位送到後端 有值時 資料庫就會刪除該資料 而非更新
   
   # private
     # def code_generator

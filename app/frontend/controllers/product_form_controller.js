@@ -19,7 +19,21 @@ export default class extends Controller {
         console.log(content);
     }
 
-    connect() {
-       
+    remove_sku(event) {
+        event.preventDefault();
+
+        let wrapper = event.target.closest('.nested-fields');
+        // 抓到離 刪除 按鈕 最近的html元素（類別為 nested-fields 的html元素）（sku輸入框）
+        if (wrapper.dataset.newRecord == 'true' ) { // 如果該sku是新的 輸入框中的欄位尚未寫進資料庫  // data-new-record="<%= form.object.new_record? %>" -> newRecord
+            wrapper.remove(); // 就直接移除 輸入框 html元素 即可
+        }
+        else { // 如果該sku是舊的 輸入框中的欄位先前已寫進資料庫 
+            wrapper.querySelector("input[name*='_destroy']").value = 1;
+            // 抓到輸入框 name為_destroy 的html元素？，將其值 設定為 1
+            // _destroy欄位被設定為1後，按下送出（update product按鈕）後，送進後端資料庫，對應的sku資料就會被刪除
+            wrapper.style.display = 'none';
+            // 在畫面上隱藏 但其實還在
+            // 不用.remove()，因為用了會 移除整個html元素（<%= form.hidden_field :_destroy %>）
+        }
     }
 }
