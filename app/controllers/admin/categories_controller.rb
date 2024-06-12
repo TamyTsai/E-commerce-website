@@ -2,7 +2,13 @@
 
 class Admin::CategoriesController < Admin::BaseController
 
+    before_action :find_category, only: [:edit, :update, :destroy]
+
     def index # 商品分類 列表 頁面 對應的 action
+        @categories = Category.all.order(position: :asc)
+        # 可以把all省略 all其實只有在不知道要寫什麼時才寫
+
+        @pagy, @categories  = pagy(Category.all)
     end
 
     def new # 新建商品分類 頁面 對應的 action
@@ -26,10 +32,32 @@ class Admin::CategoriesController < Admin::BaseController
             # position欄位的值 為acts as list套件自動幫我們加的
     end
 
+    def edit
+    end
+
+    def update # （將進入 編輯已建立的商品類別頁面 後，所更新的文章資料 儲存）
+
+        if @category.update(category_params)
+            redirect_to  edit_admin_category_path(@category), notice: "商品類別資料更新成功"
+        else
+            render :edit
+        end
+
+    end
+
+    def destroy
+        @category.destroy
+        redirect_to admin_categories_path, notice: "商品分類已刪除!"
+    end
+
     private
 
     def category_params
         params.require(:category).permit(:name)
         # 排序跟刪除欄位不是給使用者輸入的 所以不需讓這些欄位在強參數可通過
+    end
+
+    def find_category
+        @category = Category.find(params[:id])
     end
 end
