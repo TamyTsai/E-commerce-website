@@ -44,7 +44,7 @@ gem 'friendly_id', '~> 5.5', '>= 5.5.1'
 #       create  config/initializers/friendly_id.rb
 # pagy 分頁套件
 gem 'pagy', '~> 6.2'
-# acts_as_list 清單拖拉套件
+# acts_as_list 紀錄position
 gem 'acts_as_list', '~> 1.2', '>= 1.2.1'
 
 group :development, :test do

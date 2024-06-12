@@ -20,3 +20,13 @@
 
 // 全站（後端（後台））都會用到的樣式 放在此
 
+.sortable-items {
+    .item {
+        cursor: pointer; // 手指頭
+    }
+}
+
+.sortable-drag {
+    background-color: #f1f1f1;  // 被拖拉時 會有背景顏色
+}
+

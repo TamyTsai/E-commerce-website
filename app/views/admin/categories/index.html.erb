@@ -2,6 +2,10 @@
 
 <%= link_to "新增分類", new_admin_category_path, class: 'button' %>
 
+<article class="message">
+  <div class="message-body">小提示：可使用拖拉調整商品分類順序喔</div>
+</article>
+
 <table class="table is-fullwidth has-shadowed">
     <thead>
       <tr>
@@ -10,10 +14,13 @@
         <th></th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="sortable-items"> <!-- 讓js掃到這塊時 知道裡面的東西可以拖拉 （不一定要叫sortable-items 叫什麼名字 js裡就用什麼名字抓）-->
       <% @categories.each do |category|  %>
-        <tr>
-          <td><%= link_to category.name, edit_admin_category_path(category) %></td>
+        <tr class="item" data-item="<%= dom_id(category) %>">
+          <!-- data-item每個item都有一個獨立的id -->
+          <!-- dom_id為 rails中的一個helper，幫你把id長在這裡，這樣之後才能分辨是 拖拉 哪一個分類 -->
+          <!--  <tr class="item" data-item="category_1"> -->
+          <td><i class="fa-solid fa-grip-vertical"></i> <%= link_to category.name, edit_admin_category_path(category) %></td>
           <td>
             <%= link_to "編輯", edit_admin_category_path(category), class: 'button is-light is-small' %>
           </td>
