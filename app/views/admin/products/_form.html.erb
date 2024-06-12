@@ -47,5 +47,16 @@
     <%= form.rich_text_area :description %>
   </div>
 
+  <hr>
+  <h3>庫存項目</h3>
+  <!-- https://guides.rubyonrails.org/form_helpers.html#configuring-the-model -->
+  <!-- 10.2 -->
+  <%= form.fields_for :skus do |sku_form| %>
+  <!-- form.fields_for :「model中accepts_nested_attributes_for的項目」 -->
+  <!-- 用form會跟上面打架 所以取名sku_form -->
+    <%= render 'sku_fields', form: sku_form %>
+    <!-- 但這裡 還是 可以 透過 將此處的sku_form 指定給 區域變數form的 方式，讓 局部渲染的檔案裡 還是可以用form就好 -->
+  <% end %>
+
   <%= form.submit class: 'button is-primary is-medium' %>
 <% end %>

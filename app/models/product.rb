@@ -20,6 +20,13 @@ class Product < ApplicationRecord
 
   
   belongs_to :vendor
+  has_many :skus
+  # 一個商品可有 多個存貨單位（stock keeping unit，SKU）
+  accepts_nested_attributes_for :skus, reject_if: :all_blank, allow_destroy: true
+  # https://guides.rubyonrails.org/form_helpers.html#configuring-the-model
+  # 第10章節
+  # 可以有很多巢狀屬性 都是關於sku的
+  # reject_if: :all_blank, allow_destroy: true ：若資訊完全是空的 就不允許寫入、允許刪除
   
   # private
     # def code_generator

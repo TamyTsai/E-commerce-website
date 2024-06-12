@@ -33,6 +33,9 @@ class Admin::ProductsController < Admin::BaseController
 
     def new # 後台 新增商品頁面 對應的action
         @product = Product.new
+        @product.skus.build
+        # build 為has_many長出來的方法，表示 放在記憶體裡 尚未儲存 .save才會寫進資料庫 跟new一樣
+        # 手動作出一個sku 放到實體變數product中，讓我們在填入form helper時，順便生成sku
     end
     
     def create # 以POST方法送出 後台 新增商品頁面 中所填入的資料 所對應的action
@@ -71,8 +74,19 @@ class Admin::ProductsController < Admin::BaseController
     private
 
     def product_parms # 清洗參數
-        params.require(:product).permit(:name, :vendor_id, :list_price, :sell_price, :on_sell, :description)
+        params.require(:product).permit(:name, 
+                                        :vendor_id,
+                                        :list_price,
+                                        :sell_price,
+                                        :on_sell,
+                                        :description,
+                                        skus_attributes: [
+                                            :id, :spec, :quantity, :_destroy
+                                        ])
         # 雖然 description 只是 action text的虛擬欄位 但一樣會被過濾掉，所以要來這裡加上，讓其可以順利通過強參數
+        # model中accepts_nested_attributes_for :skus
+        # skus_attributes: 為key，其值為一陣列
+        # :_destroy 刪除庫存的時候 會有此參數 所以要讓他可通過
     end
 
     def find_product
