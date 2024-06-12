@@ -32,9 +32,10 @@ Rails.application.routes.draw do
     #                     PUT      /admin/products/:id(.:format)          admin/products#update
     #                     DELETE   /admin/products/:id(.:format)          admin/products#destroy
 
-
     resources :vendors, except: [:show] # 不需要 顯示單一廠商資料的頁面（因為欄位很少，內容也不長，所以有index所有廠商資料列表就夠了）
     # 多開路徑會浪費額外資源，且會有資安風險
+
+    resources :categories, except: [:show]
 
   end
 
