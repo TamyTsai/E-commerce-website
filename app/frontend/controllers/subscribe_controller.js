@@ -24,9 +24,9 @@ export default class extends Controller {
         Rails.ajax({ // 前端controller透過ajax方法，帶著data使用post方法往某一個地方（api路徑）去打，成功時...，失敗時...
             url: '/api/v1/subscribe', // 往某個地方打
             data, // ES6寫法，key與value一樣，可以只寫一次
+            // data: data, // 要送出的資料（有"subscribe['email]", email的FormData()），送出後後端 就會有 一般的參數或強參數 把他抓下來
             type: 'POST', // 用什麼方式打（html動詞）（大小寫沒差）
             dataType: 'json', // 希望伺服器回傳 json格式之檔案回來
-            // data: data, // 要送出的資料（有"subscribe['email]", email的FormData()），送出後後端 就會有 一般的參數或強參數 把他抓下來
             success: (response)=> { // response為透過api打後端後 後端透過api回傳的資料
                 switch (response.status){ // 後端回一包json檔案 抓出其中的 status key
                     case 'ok': // status key 之 value 若等於 ok（表示email寫入資料庫成功）

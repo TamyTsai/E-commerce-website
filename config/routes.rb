@@ -35,7 +35,13 @@ Rails.application.routes.draw do
     resources :vendors, except: [:show] # 不需要 顯示單一廠商資料的頁面（因為欄位很少，內容也不長，所以有index所有廠商資料列表就夠了）
     # 多開路徑會浪費額外資源，且會有資安風險
 
-    resources :categories, except: [:show]
+    resources :categories, except: [:show] do
+      collection do # collection直接長後面 member還會帶id
+        put :sort
+        # html動詞 :網址後面要接的（也會是action）
+        # sort_admin_categories    PUT      /admin/categories/sort(.:format)          admin/categories#sort
+      end
+    end
 
   end
 
@@ -48,3 +54,4 @@ Rails.application.routes.draw do
   end
 
 end
+
