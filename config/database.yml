@@ -23,7 +23,7 @@ default: &default
 
 development:
   <<: *default
-  database: Ecommerce_website_development
+  database: Ecommerce_website_development # 在本機跑rails sever等的話 使用開發資料庫
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -57,7 +57,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: Ecommerce_website_test
+  database: Ecommerce_website_test # 跑rspec的話 使用測試資料庫
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -81,7 +81,7 @@ test:
 #
 production:
   <<: *default
-  database: Ecommerce_website_production
+  database: Ecommerce_website_production # 部署到網路上的話 使用production資料庫
   username: Ecommerce_website
   password: <%= ENV['ECOMMERCE_WEBSITE_DATABASE_PASSWORD'] %>
 

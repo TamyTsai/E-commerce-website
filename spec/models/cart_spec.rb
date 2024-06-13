@@ -81,9 +81,35 @@ RSpec.describe Cart, type: :model do
           # 2 examples, 0 failures
     end
 
+    it "商品可以放到購物車裡，也可以再拿出來" do # 放香蕉進去 還可以把香蕉再拿出來 不會拿出來變成蘋果
+      # Arrange（安排）
+      cart = Cart.new
+      v1 = Vendor.create(title: '美好小吃店')
+      p1 = Product.create(name: '麵線', list_price:30 ,sell_price:25 ,vendor: v1)
+      # create會建立一筆資料，並直接寫入資料庫裡（寫入失敗時 會rollback回來）
+      # 用真的model（跟rails資料庫有關的）建立物件
+      # 跑測試的時候，資料不是寫到 正式資料庫
+      # 會根據不同環境 寫到不同資料庫（開發、測試、生產）
+      # database: Ecommerce_website_test
+
+      # Act（操作使用）
+      cart.add_item(p1.id)
+
+      # Assert（斷言 看看符不符合預期）
+      expect(cart.items.first.product).to be_a Product # 丟一個商品進去 拿出來預期還是一個商品
+      # .product方法要去CartItem model做
+
+      # p v1
+      # p p1
+      # #<Vendor id: 5, title: "美好小吃店", description: nil, online: true, created_at: "2024-06-13 13:45:26.996081000 +0000", updated_at: "2024-06-13 13:45:26.996081000 +0000", deleted_at: nil>
+      # #<Product id: 2, name: "麵線", vendor_id: 5, list_price: 0.3e2, sell_price: 0.25e2, on_sell: false, code: "bb418d5fd5d7dc54dffb", deleted_at: nil, created_at: "2024-06-13 13:45:27.159405000 +0000", updated_at: "2024-06-13 13:45:27.159405000 +0000", category_id: nil>
+
+    end
+
   end
 
   describe "進階功能" do
+
   end
 
 end

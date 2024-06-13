@@ -20,7 +20,7 @@ class Product < ApplicationRecord
   validates :code, uniqueness: true # 於model層級也驗證code欄位值的唯一性
 
   # 關聯性relationships
-  belongs_to :vendor
+  belongs_to :vendor # 必填（因為沒寫 optional: true）
   belongs_to :category, optional: true
   # 商品屬於某個商品分類，但並不強迫商品一定要被分類
   # optional: true 選填（Rails 5後強制填 選填的話要設定這個）

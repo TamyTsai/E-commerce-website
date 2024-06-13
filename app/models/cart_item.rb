@@ -18,5 +18,13 @@ class CartItem
         @quantity += n
         # 把 @quantity+n 的值 指定給 原@quantity
     end
+
+    # 回傳商品的方法
+    def product
+        Product.find_by(id: product_id) # 找出對應的商品
+        # 也可以用friendly id
+        # 不過這裡已經知道商品id是多少了
+        # find()出問題會噴例外 find_by()找不到時給nil
+    end
     
 end

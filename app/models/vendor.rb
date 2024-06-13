@@ -18,4 +18,5 @@ class Vendor < ApplicationRecord
     # 減少在controller中 寫一堆where組合
     # 用起來跟 類別方法 一樣
     # scope :類別方法名稱, -> { 類別方法的內容 }
+    # available類別方法 篩選正常營業的廠商
 end
