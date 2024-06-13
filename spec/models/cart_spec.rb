@@ -57,7 +57,7 @@ RSpec.describe Cart, type: :model do
 
       # Assert（斷言 看看符不符合預期）
       expect(cart.items.count).to be 2 # 預期只有2個商品「項目」 # items是陣列（@items = []） 所以可以使用count方法 計算 元素數量
-      expect(cart.items.quantity).to be 3 # 預期 第一個商品項目（1號商品）的數量為3
+      expect(cart.items.first.quantity).to be 3 # 預期 第一個商品項目（1號商品）的數量為3（只能對 單一商品項目 算商品數量，不能直接對 所有商品項目 用數量(quantity)方法）
 
       # 測試結果
         # 沒 將@item設定為實體外部可讀取 前
@@ -71,6 +71,14 @@ RSpec.describe Cart, type: :model do
           # but expected and actual are not the same object. Use
           # `expect(actual).to eq(expected)` if you don't care about
           # object identity in this example.
+        # 設定CartItem model並設定相關方法後
+          # Cart
+          #   基本功能
+          #     可以把商品丟到到購物車裡，然後購物車裡就有東西了
+          #     加相同種類的商品到購物車裡，購買項目（CartItem）並不會增加，但商品的數量會改變
+          
+          # Finished in 0.0082 seconds (files took 0.81841 seconds to load)
+          # 2 examples, 0 failures
     end
 
   end
