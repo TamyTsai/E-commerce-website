@@ -7,6 +7,9 @@ class ProductsController < ApplicationController
     end
 
     def show # 檢視單一商品頁面 所對應的 action
+        @product = Product.friendly.find(params[:id])
+        # 抓出參數id為id的文章
+        # 網址中原id已經被friendly id轉換
     end
 
 end
