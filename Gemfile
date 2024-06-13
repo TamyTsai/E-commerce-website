@@ -78,8 +78,15 @@ group :development, :test do
   gem 'foreman', '~> 0.87.1'
   gem 'hirb-unicode', '~> 0.0.5'
   # rspec 用來寫測試
-  gem 'rspec-rails', '~> 4.0'
-  gem 'factory_bot_rails', '~> 5.1', '>= 5.1.1'
-  gem 'faker', '~> 2.11'
+  # rspec rails 特化給rails用的rspec套件 用來寫測試的本體
+  # gem 'rspec-rails', '~> 4.0'
+  gem 'rspec-rails', '~> 6.1', '>= 6.1.2'
+  # factory bot rails 輔助產生測試資料用的 Gem
+  # gem 'factory_bot_rails', '~> 5.1', '>= 5.1.1'
+  gem 'factory_bot_rails', '~> 6.4', '>= 6.4.3'
+  # facker 輔助產生測試資料用的 Gem
+  # gem 'faker', '~> 2.11'
+  gem 'faker', '~> 3.4', '>= 3.4.1'
   gem 'pry-rails', '~> 0.3.9'
+  # 這些 Gem 因為 僅會在 開發 及測試 階段 會使用到，所以建議放到 development 以及 test 的 Gem 群組裡
 end
