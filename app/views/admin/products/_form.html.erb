@@ -1,4 +1,12 @@
 <%= form_with(model: [:admin, product]) do |form| %>
+
+  商品主圖：
+  <%= form.file_field :cover_image %>
+  <br/>
+  <%= image_tag form.object.cover_image.variant(resize: '600x400') if form.object.cover_image.attached? %>
+
+  <hr>
+
   <div class="columns">
     <div class="column is-6">
       <div class="field">
@@ -6,7 +14,7 @@
         <%= form.text_field :name, class: 'input is-medium' %>
       </div>
     </div>
-    <div class="column is-6">
+    <div class="column is-3">
       <div class="field">
         <%= form.label :vendor_id, '廠商', class: 'label' %>
         <div class="select is-medium is-fullwidth">
@@ -16,6 +24,18 @@
           <!-- :vendor_id, :id, :title 為下拉選單的選項的資料送出後 要有的欄位-->
           <!-- Vendor.available 下拉選單資料來源（可選的廠商 排除 非正常營業中的） -->
           <!-- Vendor是類別 所以.available是 類別方法 -->
+        </div>
+      </div>
+    </div>
+    <div class="column is-3">
+      <div class="field">
+        <%= form.label :category_id, '商品分類', class: 'label' %>
+        <div class="select is-medium is-fullwidth">
+          <%= form.collection_select :category_id, Category.all, :id, :name %>
+          <!-- form.collection_select會做出 下拉式選單 -->
+          <!-- :category_id 下拉選單有這個選項，才能知道表單送出後 新建立的商品資料 要 寫入資料要寫到哪個商品分類 -->
+          <!-- :id, :name 為下拉選單的選項的資料送出後 要有的欄位-->
+          <!-- Category.all 下拉選單資料來源（所有商品分類皆可選） -->
         </div>
       </div>
     </div>

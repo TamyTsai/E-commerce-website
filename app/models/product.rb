@@ -12,14 +12,18 @@ class Product < ApplicationRecord
   acts_as_paranoid
 
   has_rich_text :description # 不用真的去開description欄位 他是一個虛擬欄位
+  has_one_attached :cover_image # 請rails active storage 幫每篇文章弄一個封面照功能（不用真的去開cover_image欄位 他是一個虛擬欄位）
 
   validates :name, presence: true # 驗證 商品名稱必填
   validates :list_price, :sell_price, numericality: { greater_than: 0, allow_nil: true}
   # 定價與售價欄位需為數字（Rails API可以查有哪些方法可用），數字可不填（還沒上架的商品 可能還沒確定價格），但填了一定要是大於零的數字
   validates :code, uniqueness: true # 於model層級也驗證code欄位值的唯一性
 
-  
+  # 關聯性relationships
   belongs_to :vendor
+  belongs_to :category, optional: true
+  # 商品屬於某個商品分類，但並不強迫商品一定要被分類
+  # optional: true 選填（Rails 5後強制填 選填的話要設定這個）
   has_many :skus
   # 一個商品可有 多個存貨單位（stock keeping unit，SKU）
   accepts_nested_attributes_for :skus, reject_if: :all_blank, allow_destroy: true
