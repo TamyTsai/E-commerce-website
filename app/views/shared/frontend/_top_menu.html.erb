@@ -3,6 +3,7 @@
     <% categories.each do |category|  %>
       <li><%= link_to category.name, category %></li>
       <!-- category_path(category) 可簡寫為 category -->
+      <!-- ategory     GET      /categories/:id(.:format)        categories#show -->
     <% end %>
   </ul>
 </div>

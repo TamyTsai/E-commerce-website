@@ -1,1 +1,8 @@
-<h1 class="tilte">單一商品分類頁面</h1>
+<h2 class="is-size-4 has-text-centered"><%= @category.name %></h2>
+
+<% if @category.products.count == 0 %> <!-- 分類下沒有商品的話 -->
+    <h2 class="is-size-5 has-text-centered">此分類暫無商品！</h2>
+<% else %> <!-- 分類下有商品的話 -->
+    <%= render 'shared/frontend/product_list', products: @category.products %>
+    <!-- 每個分類下會有很多商品 -->
+<% end %>
