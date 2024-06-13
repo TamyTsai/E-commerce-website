@@ -55,9 +55,12 @@ class Admin::CategoriesController < Admin::BaseController
         # 抓到要拖拉的資料（before action已做）
 
         @category.insert_at(params[:to].to_i + 1)
-        # .insert_at 為 acts as list提供的方法，把資料安插在 哪個位置
+        # .insert_at 為 acts as list提供的方法
+        # 用acts_as_list 提供的 @category.insert_at(n) 的方式，把資料安插在第 n 
+        # insert_at 方法也會更新附近幾筆資料的 position
         # Parameters: {"id"=>"1", "from"=>"0", "to"=>"1"}
         # 抓分類被拖拉到哪個位置，但因為是抓到字串，所以要轉成整數，且位置數字從1開始，索引值從0開始，所以要+1
+        
 
         render json: {status: 'ok'}
        

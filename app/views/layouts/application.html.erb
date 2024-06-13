@@ -25,7 +25,8 @@
     <!-- 路徑起始點為views-->
     <!-- 不用寫最前面之底線 及 副檔名 -->
     <!-- 雖然用partial render的手法，會讓效能差一點點（讀取檔案需要效能），但會提升程式碼可讀性 -->
-    <%= render 'shared/frontend/top_menu' %>
+    <%= render 'shared/frontend/top_menu', categories: @categories %>
+    <!-- @categories在controller是撈出 依照position欄位值排序 的 商品分類資料 -->
 
     <%= yield %>
     

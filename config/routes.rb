@@ -17,6 +17,9 @@ Rails.application.routes.draw do
   # products    GET    /products(.:format)                products#index
   # product     GET    /products/:id(.:format)            products#show
 
+  resources :categories, only: [:show]
+  # 點進top menu個別商品分類後 要顯示的畫面的路徑
+
   # 若在routes裡想要有 階層 的寫法 可以用namespace
   # namespace :admin 都放 後台 相關路徑
   namespace :admin do
