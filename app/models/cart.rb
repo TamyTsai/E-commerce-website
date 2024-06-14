@@ -95,7 +95,7 @@ class Cart # 所有的資料都不會存在資料庫中，只會存在這個 物
     end
 
     # 將 hash 轉換回 購物車物件 的方法
-    def self.form_hash(hash = nil) # 類別方法 # 給參數預設值 避免沒傳引數的時候 造成引數個數錯誤
+    def self.from_hash(hash = nil) # 類別方法 # 給參數預設值 避免沒傳引數的時候 造成引數個數錯誤
         # 傳入的引數hash應有的樣子
         # {
         #     "items" => [

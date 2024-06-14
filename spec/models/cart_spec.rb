@@ -158,8 +158,8 @@ RSpec.describe Cart, type: :model do
 
     it "可以把 Session 的內容（Hash 格式），還原成購物車的內容" do
       # Arrange、Action
-      cart = Cart.form_hash(cart_hash) # 做一台購物車 裡面有東西 且內容物為cart_hash方法的內容（內容為一個hash）由hash轉換回來的結果
-      # form_hash（從hash還原成購物車）是一個類別方法，作用在類別上（這個方法要自己寫）
+      cart = Cart.from_hash(cart_hash) # 做一台購物車 裡面有東西 且內容物為cart_hash方法的內容（內容為一個hash）由hash轉換回來的結果
+      # from_hash（從hash還原成購物車）是一個類別方法，作用在類別上（這個方法要自己寫）
 
       expect(cart.items.first.quantity).to eq 3
     end
