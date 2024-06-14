@@ -1,6 +1,7 @@
 # $ rails g rspec:model Cart
 # 測試不保證程式可以正常運作，但若測試不通過，表示程式一定被改壞了
 # 測試的重點在 程式有問題時 可以很快抓出問題在哪
+# 因為我們用 Rspec 取代原本內建的測試，所以原本專案裡的 test 目錄可移除
 
 require 'rails_helper'
 # 會把 Rails環境 相關的東西載入，讓你測試時可以用到整個Rails的 model 物件 library等
@@ -129,7 +130,33 @@ RSpec.describe Cart, type: :model do
   end
 
   describe "進階功能" do
+    it "可以將購物車內容轉換成 Hash，存到 Session 裡" do
+      # Arrange
+      cart = Cart.new
+      p1 = create(:product) 
+      p2 = create(:product)
 
+      # Action
+      3.times { cart.add_item(p1.id) }
+      2.times { cart.add_item(p2.id) }
+
+      cart_hash = {
+        "items" => [
+          {"product_id" => 1, "quantity" => 3}, # 1號商品有3個
+          {"product_id" => 2, "quantity" => 2},
+        ]
+      }
+      # 購物車是一個物件，在記憶體算有一個位置，但想把其轉換成hash格式，希望hash透過serialize方法（要自己寫）可再轉換為原本的樣子（cart_hash）
+      # hash中有items key，其value為 一個陣列，該陣列 裝著2個hash
+      # 舊式hash寫法
+
+      # Assert
+      expect(cart.serialize).to eq cart_hash
+    end
+    # 購物車原本是一個物件，但透過http移動傳輸的過程中會變成純文字，無法轉換回物件
+    # 存到session的話 就可以每個頁面都抓得到
+
+    # it "可以把 Session 的內容（Hash 格式），還原成購物車的內容"
   end
 
 end
@@ -140,3 +167,5 @@ end
 # 每個 Cart Item 都可以計算它自己的金額（小計）。
 # 可以計算整台購物車的總消費金額。
 # 特別活動可搭配折扣（例如聖誕節的時候全面打 9 折，或是滿額滿千送百或滿額免運費）。
+
+

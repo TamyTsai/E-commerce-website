@@ -72,4 +72,22 @@ class Cart # 所有的資料都不會存在資料庫中，只會存在這個 物
         # 每次計算完就會回傳sum，然後再做下一次的迴圈，最後得到歸納值
     end
 
+    # 將hash序列化的方法
+    def serialize
+        # items = [
+        #     {"product_id" => 1, "quantity" => 3},
+        #     {"product_id" => 2, "quantity" => 2},
+        # ]
+
+        items = @items.map { |item| {"product_id" => item.product_id, "quantity" => item.quantity} }
+        # .map方法對 集合裡 的 每個元素 進行運算，並收集成 一個新的集合
+        # items裡面每個元素都是一個cart item，cart item會有對應的 商品id 及 該商品數量 方法
+
+        { "items" => items }
+
+        # 跑測試時沒把資料庫清掉 可能會出現非預期結果
+        # -"items" => [{"product_id"=>1, "quantity"=>3}, {"product_id"=>2, "quantity"=>2}],
+    #    +"items" => [{"product_id"=>49, "quantity"=>3}, {"product_id"=>50, "quantity"=>2}],
+    end
+
 end

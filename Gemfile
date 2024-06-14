@@ -89,4 +89,6 @@ group :development, :test do
   gem 'faker', '~> 3.4', '>= 3.4.1'
   gem 'pry-rails', '~> 0.3.9'
   # 這些 Gem 因為 僅會在 開發 及測試 階段 會使用到，所以建議放到 development 以及 test 的 Gem 群組裡
+  # DatabaseCleaner 用來在測試前 自動清資料庫
+  gem 'database_cleaner', '~> 2.0', '>= 2.0.2'
 end

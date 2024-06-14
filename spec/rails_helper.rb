@@ -34,6 +34,17 @@ RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.include FactoryBot::Syntax::Methods # 這樣就可以用簡寫 來讓factory bot生假資料
+  # DatabaseCleaner 在每次測試前 先清掉資料庫
+  config.before(:each) do # :suite測試完才清 用:each才能清得更乾淨（每一個進來就清掉 但是效能會變慢）
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
