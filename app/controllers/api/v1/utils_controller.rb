@@ -21,4 +21,30 @@ class Api::V1::UtilsController < ApplicationController
         # 存檔成功...，存檔失敗...
 
     end
+
+    def cart
+        # 先找到商品
+        # 前端透過api打來一包params資料，後端抓下來
+        product = Product.friendly.find(params[:id])
+
+        # 有找到使用者想丟進購物車的商品 才真的把該商品丟入購物車
+        if product
+            cart = Cart.from_hash(session[:cart_tamy])
+            # .from_hash(session[:cart_tamy]) 把 hash 還原為 購物車物件
+            # 如果沒有這個hash的話 預設會建全新購物車
+            cart.add_item(product.code)
+
+            session[:cart_tamy] = cart.serialize
+            # 將購物車hash存到session中
+            # session 可讓使用者跳轉到其他頁面時 仍繼續有 存到session的資料（一直存在瀏覽器中）
+            # serialize可將 購物車物件 序列化為hash （自己寫的方法）
+
+            render json: { status: 'ok', items: cart.items.count } # 要回給前端的東西（json檔）
+        else
+        end
+
+        # render json: params
+        # json格是的params內容會是：{id: "product.code", quantity: "2", sku: "8", controller: "api/v1/utils", action: "cart"}
+    end
+
 end

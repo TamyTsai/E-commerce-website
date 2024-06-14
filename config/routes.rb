@@ -53,6 +53,7 @@ Rails.application.routes.draw do
       post 'subscribe', to: 'utils#subscribe'
       # 用post動詞 到utils controller的subscribe action
       #  api_v1_subscribe    POST     /api/v1/subscribe(.:format)     api/v1/utils#subscribe
+      post 'cart', to: 'utils#cart'
     end
   end
 
