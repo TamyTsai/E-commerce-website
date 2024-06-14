@@ -49,7 +49,7 @@
               </div>
               <div class="column is-9 field is-grouped">
                 <div class="select is-fullwidth is-medium">
-                  <select name="" id="">
+                  <select data-target="product.sku">
                     <%= options_for_select(@product.skus.map { |p| [p.spec, p.id] }) %>
                     <!-- options_for_select為Rails中的helper，可以長出 下拉選單 的 選項 -->
                     <!-- map 對集合裡 的 每個元素 進行運算，並收集成 一個 新的集合 -->
@@ -68,10 +68,12 @@
           <div class="column is-9 field is-grouped">
             <a href="#" class="button is-white is-medium" data-action="product#quantity_minus">-</a>
             <input type="number" name="quantity" data-target="product.quantity" class="input is-medium has-text-centered" value="1" >
+            <!-- target是讓這個框框 在+-按鈕被按下去後 被js操控其顯示的數字（商品數量） -->
             <a href="#" class="button is-white is-medium" data-action="product#quantity_plus">+</a>
           </div>
         </div>
-        <a href="#" class="button is-primary is-medium is-fullwidth">加到購物車</a>
+        <a href="#" class="button is-primary is-medium is-fullwidth" data-action="product#add_to_cart" data-target="product.addToCartButton">加到購物車</a>
+        <!-- action 是要讓這個按鈕案下去後會去打api，target是讓這顆按鈕按下去後被js操控變成轉圈樣式 -->
       </div>
     </div>
   </section>
