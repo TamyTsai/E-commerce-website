@@ -50,4 +50,26 @@ class Cart # 所有的資料都不會存在資料庫中，只會存在這個 物
     #     return @items
     # end
 
+    # 計算所有商品總價的方法
+    def total_price
+        
+        # total = 0
+        # @items.each do |item|
+        #     # cart裡面會有很多items，每個items都是一個陣列
+        #     total += item.total_price
+        #     # 將每個item的總價（小計）指定給total
+        #     # 透過此迴圈就可以把items陣列中每個元素item的小計金額加總 給 total
+        # end
+
+        # total # 省略return的寫法
+
+        @items.reduce(0) { |sum, item| sum = sum + item.total_price }
+        # sum = 可省略
+        # reduce()對集合裡 的 每個元素 進行運算，並將 所有的運算結果 歸納成 一個 單一結果
+        # 同意詞：inject
+        # reduce(0) 初始值為0（沒有給預設值的話 會拿第一個元素（item）當預設值 但這裡item不能拿來加總）
+        # sum, item ：累加後之值、每個項目
+        # 每次計算完就會回傳sum，然後再做下一次的迴圈，最後得到歸納值
+    end
+
 end
