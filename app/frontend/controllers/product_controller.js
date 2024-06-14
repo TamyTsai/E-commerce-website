@@ -34,7 +34,7 @@ export default class extends Controller {
         if (quantity > 0) {
             // 打api需要時間，所以開始打的時候要讓「加到購物車」按鈕變成loading狀態不可按
             this.addToCartButtonTarget.classList.add('is-loading');
-            // classList.add('類別名稱') 可以幫html元素的class屬性加值
+            // classList.add('類別名稱') 可以幫html元素的class屬性 加 值
             let data = new FormData();
             // 準備一包FormData()
             data.append("id", product_id);
@@ -51,22 +51,27 @@ export default class extends Controller {
                 // post 新增
                 // dataType: 'json', // 希望伺服器回傳 json格式之檔案回來
                 success: resp => { // resp為透過api打後端後 後端透過api回傳的資料
-                    console.log(resp);
-                //     switch (response.status){ // 後端回一包json檔案 抓出其中的 status key
-                //         case 'ok': // status key 之 value 若等於 ok（表示email寫入資料庫成功）
-                //             alert('完成訂閱');
-                //             this.emailTarget.value = "";
-                //             // 抓到data-target="subscribe.email"的html元素輸入框中的值，將其變成空白（完成訂閱後 清空輸入框）
-                //             // this指的是這個function本身 所以會失敗，要把function改成ES6 箭頭函數，這樣作用scope就會不一樣
-                //             break;
-                //         case '已訂閱過電子報': // status key 之 value 若等於 已訂閱過電子報（表示email寫入資料庫失敗）
-                //             alert(`${response.email} 已訂閱過電子報`); // 後端回一包json檔案 抓出其中的 email key
-                //             // 後端controller： render json: { status: '已訂閱過電子報', email: email }
-                //             break;
-                //     }
+                    // console.log(resp);
+                    if (resp.status === 'ok') { // 如果 controller.rb 成功
+                        let item_count = resp.items || 0;
+                        // 就把 後端傳輸輸過來的資料（json檔）中的item key對應的value 指定給 變數 item_count（沒抓到東西就給0）
+
+                        // 發事件
+                        let evt = new CustomEvent('addToCart', { 'detail': { item_count } });
+                        // evt 自訂事件
+                        // CustomEvent為js內建的類別物件 
+                        // 準備一個 名為addToCart 之 物件
+                        // 追加物件 （細節）為 'detail': { item_count } （「item_count」為 「item_count: item_count」 的ES6縮寫（key與value相同））
+                        // 想要丟item_count出去（廣播item_count的內容 給 所有東西知道 供有興趣的人將此內容抓下來）
+                        document.dispatchEvent(evt);
+                    }
                 },
                 error: err => { // 404、路徑找不到、伺服器發生錯誤
                     console.log(err);
+                },
+                complete: () => { // api打完後 不管成功失敗都要做...
+                    this.addToCartButtonTarget.classList.remove('is-loading');
+                    // classList.add('類別名稱') 可以幫html元素的class屬性 移除 值
                 }
             });
             // import Rails from "@rails/ujs" 的方法

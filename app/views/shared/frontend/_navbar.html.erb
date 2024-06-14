@@ -36,9 +36,15 @@
           <div class="navbar-item">
             <div class="buttons">
               <% if user_signed_in? %> <!--  如果 當前的使用者 有登入（devise送的view helper）-->
-                <div class="navbar-item">
+                <div class="navbar-item" data-controller="cart">
                   <i class="fa-solid fa-cart-shopping"></i>
-                  （<%= current_cart.items.count %>）
+                  <!-- 用AJAX手法寫（透過stimulus js）（這樣就不用等重新整理或轉換頁面時 才能顯示更新的商品數量）  -->
+                  <span data-target="cart.count" data-action="addToCart@document->cart#updateCart">
+                    <!-- product_controller.js自訂要發佈的事件：let evt = new CustomEvent('addToCart', { 'detail': { item_count } }); -->
+                    <!-- 當此controller監聽到 document發生 發送此自訂事件 的事件時，就去執行 cart js controller的updateCart action -->
+                    <!-- document.dispatchEvent(evt); -->
+                    （<%= current_cart.items.count %>）
+                  </span>
                 </div>
                 <div class="navbar-item has-dropdown is-hoverable">
                   <a class="navbar-link">
