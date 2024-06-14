@@ -20,6 +20,21 @@ Rails.application.routes.draw do
   resources :categories, only: [:show]
   # 點進top menu個別商品分類後 要顯示的畫面的路徑
 
+  # resource :cart
+  # 單數resource寫法 會長出不帶id的網址，因為購物車只要一台就好，所以不需要用id來辨別哪一台購物車
+  # new_cart  GET      /cart/new(.:format)                   carts#new
+  # edit_cart GET      /cart/edit(.:format)                  carts#edit
+  # cart      GET      /cart(.:format)                       carts#show
+  #           PATCH    /cart(.:format)                       carts#update
+  #           PUT      /cart(.:format)                       carts#update
+  #           DELETE   /cart(.:format)                       carts#destroy
+  #           POST     /cart(.:format)                       carts#create
+  resource :cart, only: [:show, :destroy] #只需要 看購物車裡面有什麼的頁面 跟 清空購物車的功能
+  # cart GET      /cart(.:format)                            carts#show
+  #      DELETE   /cart(.:format)                            carts#destroy
+
+
+
   # 若在routes裡想要有 階層 的寫法 可以用namespace
   # namespace :admin 都放 後台 相關路徑
   namespace :admin do
