@@ -94,6 +94,9 @@ RSpec.describe Cart, type: :model do
 
       # 廠商跟商品等測試用資料 可以用factory bot幫忙建
       p1 = FactoryBot.create(:product)
+      # 甚至可以縮寫成 p1 = create(:product)
+      # 但要先在rails_helper裡寫config.include FactoryBot::Syntax::Methods
+      # Factory bot wiki usage getting started
 
       # Act（操作使用）
       cart.add_item(p1.id)

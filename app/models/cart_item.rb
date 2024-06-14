@@ -26,5 +26,11 @@ class CartItem
         # 不過這裡已經知道商品id是多少了
         # find()出問題會噴例外 find_by()找不到時給nil
     end
+
+    # 計算單項商品總價的方法
+    def total_price
+        product.sell_price * @quantity
+        # product是呼叫上面那個product方法（Ruby呼叫方法可省略小括弧），找出對應的商品
+    end
     
 end
