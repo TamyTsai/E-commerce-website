@@ -140,7 +140,26 @@ RSpec.describe Cart, type: :model do
       3.times { cart.add_item(p1.id) }
       2.times { cart.add_item(p2.id) }
 
-      cart_hash = {
+      # Assert
+      expect(cart.serialize).to eq cart_hash # 預期 購物車物件 轉換為 hash 後，會跟 cart_hash方法 回傳的hash內容一樣
+      # .serialize方法 將購物車物件 轉換為 hash的方法
+    end
+
+    # 購物車原本是一個物件，但透過http移動傳輸的過程中會變成純文字，無法轉換回物件
+    # 存到session的話 就可以每個頁面都抓得到
+
+    it "可以把 Session 的內容（Hash 格式），還原成購物車的內容" do
+      # Arrange、Action
+      cart = Cart.form_hash(cart_hash) # 做一台購物車 裡面有東西 且內容物為cart_hash方法的內容（內容為一個hash）由hash轉換回來的結果
+      # form_hash（從hash還原成購物車）是一個類別方法，作用在類別上（這個方法要自己寫）
+
+      expect(cart.items.first.quantity).to eq 3
+    end
+
+    private
+    
+    def cart_hash # 購物車物件 轉換成的hash
+      {
         "items" => [
           {"product_id" => 1, "quantity" => 3}, # 1號商品有3個
           {"product_id" => 2, "quantity" => 2},
@@ -149,16 +168,9 @@ RSpec.describe Cart, type: :model do
       # 購物車是一個物件，在記憶體算有一個位置，但想把其轉換成hash格式，希望hash透過serialize方法（要自己寫）可再轉換為原本的樣子（cart_hash）
       # hash中有items key，其value為 一個陣列，該陣列 裝著2個hash
       # 舊式hash寫法
-
-      # Assert
-      expect(cart.serialize).to eq cart_hash
     end
-    # 購物車原本是一個物件，但透過http移動傳輸的過程中會變成純文字，無法轉換回物件
-    # 存到session的話 就可以每個頁面都抓得到
 
-    # it "可以把 Session 的內容（Hash 格式），還原成購物車的內容"
   end
-
 end
 
 # 可以把商品丟到到購物車裡，然後購物車裡就有東西了。
