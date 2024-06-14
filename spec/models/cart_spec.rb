@@ -84,13 +84,16 @@ RSpec.describe Cart, type: :model do
     it "商品可以放到購物車裡，也可以再拿出來" do # 放香蕉進去 還可以把香蕉再拿出來 不會拿出來變成蘋果
       # Arrange（安排）
       cart = Cart.new
-      v1 = Vendor.create(title: '美好小吃店')
-      p1 = Product.create(name: '麵線', list_price:30 ,sell_price:25 ,vendor: v1)
+      # v1 = Vendor.create(title: '美好小吃店')
+      # p1 = Product.create(name: '麵線', list_price:30 ,sell_price:25 ,vendor: v1) 
       # create會建立一筆資料，並直接寫入資料庫裡（寫入失敗時 會rollback回來）
       # 用真的model（跟rails資料庫有關的）建立物件
       # 跑測試的時候，資料不是寫到 正式資料庫
       # 會根據不同環境 寫到不同資料庫（開發、測試、生產）
       # database: Ecommerce_website_test
+
+      # 廠商跟商品等測試用資料 可以用factory bot幫忙建
+      p1 = FactoryBot.create(:product)
 
       # Act（操作使用）
       cart.add_item(p1.id)
