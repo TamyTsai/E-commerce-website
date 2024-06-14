@@ -8,16 +8,24 @@ require 'rails_helper'
 
 RSpec.describe Cart, type: :model do
 
+  # before(:each) do # 在每一個測試之前都做...
+  #   @cart = Cart.new # 但這樣下面全部要改成實體變數
+  # end
+  # 可以寫成let(符號) {在每一個測試之前都執行的程式碼（值會指定給前面的符號）} 
+  let(:cart) { Cart.new }
+
   describe "基本功能" do # 寫 describe 或 context（情境）都可以
 
     it "可以把商品丟到到購物車裡，然後購物車裡就有東西了" do # it "要測試的內容描述" （此內容描述的字串 會被轉換成 方法）
       # 寫測試之3A原則：Arrange（安排）、Act（操作使用）、Assert（斷言 看看符不符合預期）
       # Arrange（安排）
-      cart = Cart.new # 寫測試的當下還沒有Cart model，但可以假設已經有了（先寫下要做什麼事和預期的結果，再一步步實作，邊做邊跑測試，看每一步實作有無符合預期）
+      # cart = Cart.new # 寫測試的當下還沒有Cart model，但可以假設已經有了（先寫下要做什麼事和預期的結果，再一步步實作，邊做邊跑測試，看每一步實作有無符合預期）
       # Act（操作使用）
       cart.add_item(2) # 丟2號商品（product_id = 2）進購物車
       # Assert（斷言 看看符不符合預期）
-      expect(cart.empty?).to be false # 因為剛剛有把東西丟進購物車，所以預期現在購物車「不該」是空的
+      # expect(cart.empty?).to be false # 因為剛剛有把東西丟進購物車，所以預期現在購物車「不該」是空的
+      # 問號方法 有特殊寫法
+      expect(cart).not_to be_empty
 
       # $ rspec
       # 會去 跑 spec目錄下 所有 檔名最後為_spec的檔案
@@ -47,7 +55,7 @@ RSpec.describe Cart, type: :model do
 
     it "加相同種類的商品到購物車裡，購買項目（CartItem）並不會增加，但商品的數量會改變" do
       # Arrange（安排）
-      cart = Cart.new
+      # cart = Cart.new
       # cart.rb有寫initialize方法，讓Cart.new一開始就建立@items = []
 
       # Act（操作使用）
@@ -84,7 +92,7 @@ RSpec.describe Cart, type: :model do
 
     it "商品可以放到購物車裡，也可以再拿出來" do # 放香蕉進去 還可以把香蕉再拿出來 不會拿出來變成蘋果
       # Arrange（安排）
-      cart = Cart.new
+      # cart = Cart.new
       # v1 = Vendor.create(title: '美好小吃店')
       # p1 = Product.create(name: '麵線', list_price:30 ,sell_price:25 ,vendor: v1) 
       # create會建立一筆資料，並直接寫入資料庫裡（寫入失敗時 會rollback回來）
@@ -115,7 +123,7 @@ RSpec.describe Cart, type: :model do
 
     it "可以計算整台購物車的總消費金額" do
       # Arrange
-      cart = Cart.new
+      # cart = Cart.new
       p1 = create(:product, sell_price: 5) 
       p2 = create(:product, sell_price: 10)
 
@@ -132,7 +140,7 @@ RSpec.describe Cart, type: :model do
   describe "進階功能" do
     it "可以將購物車內容轉換成 Hash，存到 Session 裡" do
       # Arrange
-      cart = Cart.new
+      # cart = Cart.new
       p1 = create(:product) 
       p2 = create(:product)
 

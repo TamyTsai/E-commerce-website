@@ -3,9 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe CartItem, type: :model do
+
+  let(:cart) { Cart.new }
+  
   it "每個 Cart Item 都可以計算它自己的金額（小計）" do
     # Arrange
-    cart = Cart.new
+    # cart = Cart.new
     p1 = create(:product, sell_price: 5) 
     # 用factory bot產生假商品資料
     # 雖然有設定工廠產生的商品假資料 但資料內容其實可以被覆寫
