@@ -1,30 +1,45 @@
 <section class="section">
-    <h1 class="title">購物車頁面</h1>
+    <h1 class="title">
+        購物車
+        <%= link_to cart_path, class: 'is-size-5 has-text-grey', method: :delete, data: {confirm: '確定清空購物車？'} do %>
+        <!-- cart GET      /cart(.:format)                       carts#show
+                  DELETE   /cart(.:format)                       carts#destroy -->
+        <i class="fa-solid fa-trash"></i>
+        <span>清空購物車</span>
+        <% end %>
+    </h1>
 
-    <table class="table is-fullwidth">
-        <thead>
-            <tr>
-                <th>品項</th>
-                <th>單價</th>
-                <th>數量</th>
-                <th>小計</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% current_cart.items.each do |item| %>
+    <% if current_cart.empty? %> <!-- current_cart是PORO純Ruby類別，跟資料庫無關，沒有資料庫物件操控語法，所以用我們寫的empty方法來檢視購物車是否為空 -->
+        <div class="is-size-4">目前購物車沒有商品，快去逛逛吧！</div><br>
+        <%= link_to "繼續選購", root_path, class: 'button is-medium' %>
+    <% else %> <!-- 若購物車有東西 -->
+        <table class="table is-fullwidth">
+            <thead>
                 <tr>
-                    <td><%= item.product.name %></td>
-                    <td><%= item.product.sell_price %></td>
-                    <td><%= item.quantity %></td>
-                    <td><%= item.total_price %></td>
+                    <th>品項</th>
+                    <th>單價</th>
+                    <th>數量</th>
+                    <th>小計</th>
                 </tr>
-            <% end %>
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="3">總價</td>
-                <td><%= current_cart.total_price %></td>
-            </tr>
-        </tfoot>
-    </table>
+            </thead>
+            <tbody>
+                <% current_cart.items.each do |item| %>
+                    <tr>
+                        <td><%= item.product.name %></td>
+                        <td><%= item.product.sell_price %></td>
+                        <td><%= item.quantity %></td>
+                        <td><%= item.total_price %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">總價</td>
+                    <td><%= current_cart.total_price %></td>
+                </tr>
+            </tfoot>
+        </table>
+        <%= link_to "繼續選購", root_path, class: 'button is-medium' %>
+        <%= link_to "結帳", root_path, class: 'button is-danger is-medium' %>
+    <% end %>
 </section>
