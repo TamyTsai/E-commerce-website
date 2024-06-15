@@ -5,5 +5,9 @@
 # 註冊登入Google Develop Console可申請
 google_app_id: "Your app id"
 google_app_secret: "Your app secret"
+
+line_pay_channel_id: 'Your line pay channel id'
+line_pay_channel_secret_key: 'Your line pay channel secret key'
+
 # 設定之後 在controller或整個Rails網站裡面（全域環境變數），就可以透過 ENV['google_app_id']拿到 google_app_id 在這裡對應設定的值
 # 這裡是設定檔，更動後要重啟伺服器才會生效
