@@ -1,4 +1,41 @@
 <section class="section">
     <h1 class="title">結帳</h1>
     <%= render 'cart' %>
-</section>
+  
+    <hr>
+    <h2 class="title is-5">收件人資訊</h2>
+  
+    <%= form_with(model: @order) do |form| %>
+    <!-- controller還沒寫@order前，@order為nil，就會用目前路徑來做，所以反而不會出錯 -->
+    <!-- controller給@order物件後，他就會去猜路徑 應該是orders_path，但目前還沒建立該路徑，所以出現以下錯誤訊息： -->
+    <!-- undefined method `orders_path'  -->
+      <div class="columns">
+        <div class="column">
+          <div class="field">
+            <%= form.label :recipient, '收件人', class: 'label' %>
+            <%= form.text_field :recipient, class: 'input is-medium' %>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <%= form.label :tel, '電話', class: 'label' %>
+            <%= form.text_field :tel, class: 'input is-medium' %>
+          </div>
+        </div>
+        <div class="column">
+          <div class="field">
+            <%= form.label :address, '地址', class: 'label' %>
+            <%= form.text_field :address, class: 'input is-medium' %>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <%= form.label :note, '備註說明', class: 'label' %>
+        <%= form.text_area :note, class: 'textarea is-medium' %>
+      </div>
+      <div class="field">
+        <%= form.submit '使用 Line Pay 結帳', class: 'button is-primary is-medium', data: { confirm: '確認送出' } %>
+      </div>
+    <% end %>
+  
+  </section>

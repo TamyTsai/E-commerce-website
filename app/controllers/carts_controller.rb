@@ -17,6 +17,8 @@ class CartsController < ApplicationController
     end
 
     def checkout # 點擊結帳按鈕連結 對應的action
+        # @order = Order.new # 從訂單角度 建立訂單
+        @order = current_user.orders.build # 從使用者角度 建立訂單
     end
 
 end

@@ -39,6 +39,10 @@ Rails.application.routes.draw do
     end 
   end
 
+  resource :orders, except: [:new, :edit, :update, :destroy] # 結帳畫面 取代order new的頁面
+  # orders   GET      /orders(.:format)                         orders#show
+  #          POST     /orders(.:format)                         orders#create
+
 
   # 若在routes裡想要有 階層 的寫法 可以用namespace
   # namespace :admin 都放 後台 相關路徑
