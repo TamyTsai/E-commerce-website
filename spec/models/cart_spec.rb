@@ -138,7 +138,7 @@ RSpec.describe Cart, type: :model do
   end
 
   describe "進階功能" do
-    it "可以將購物車內容轉換成 Hash，存到 Session 裡" do
+    it "可以將購物車內容轉換成 Hash，以方便存到 Session 裡" do
       # Arrange
       # cart = Cart.new
       p1 = create(:product) 

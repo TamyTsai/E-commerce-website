@@ -34,6 +34,7 @@ class ApplicationController < ActionController::Base
         # 第一次呼叫此方法時，因為 實體變數@cart之值 尚為nil，所以會把Cart.from_hash(session[:cart_tamy])指定給實體變數@cart
         # 第二次呼叫此方法時，實體變數@cart已經有值，就不再指定值給其（就不會重複進行 將hash轉回購物車物件 的動作）
         # .from_hash(session[:cart_tamy]) 把 hash 還原為 購物車物件
+        # session是一個hash裡面有一個key叫做:cart_tamy，session[:cart_tamy])會抓到該key的value（hash格式）
         # 如果沒有這個hash的話 預設會建全新購物車
     end
 
