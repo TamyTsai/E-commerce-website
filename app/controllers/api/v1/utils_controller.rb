@@ -25,7 +25,9 @@ class Api::V1::UtilsController < ApplicationController
     def cart
         # 先找到商品
         # 前端透過api打來一包params資料，後端抓下來
-        product = Product.friendly.find(params[:id])
+        # product = Product.friendly.find(params[:id])
+        product = Product.joins(:skus).find_by(skus: { id: params[:sku] })
+        # find_by(skus: { id: params[:sku] })：找到skus 為 sku id（前端傳來的那包params中sku key所對應的值） 的資料
 
         # 有找到使用者想丟進購物車的商品 才真的把該商品丟入購物車
         if product
@@ -33,7 +35,8 @@ class Api::V1::UtilsController < ApplicationController
             # .from_hash(session[:cart_tamy]) 把 hash 還原為 購物車物件
             # 如果沒有這個hash的話 預設會建全新購物車
             # 寫一個current_cart方法（會回傳Cart.from_hash(session[:cart_tamy])）在 ApplicationController
-            current_cart.add_item(product.code)
+            # current_cart.add_item(product.code)
+            current_cart.add_sku(params[:sku])
 
             session[:cart_tamy] = current_cart.serialize
             # 將購物車hash存到session中

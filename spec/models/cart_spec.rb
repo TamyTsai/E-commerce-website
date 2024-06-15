@@ -2,6 +2,9 @@
 # 測試不保證程式可以正常運作，但若測試不通過，表示程式一定被改壞了
 # 測試的重點在 程式有問題時 可以很快抓出問題在哪
 # 因為我們用 Rspec 取代原本內建的測試，所以原本專案裡的 test 目錄可移除
+# $ rspec 跑 全部 測試
+# $ rspec spec/models/cart_spec.rb 跑 特定檔案 測試
+# $ rspec spec/models/cart_spec.rb:24 跑 特定檔案 特定行數附近 測試
 
 require 'rails_helper'
 # 會把 Rails環境 相關的東西載入，讓你測試時可以用到整個Rails的 model 物件 library等
@@ -21,7 +24,7 @@ RSpec.describe Cart, type: :model do
       # Arrange（安排）
       # cart = Cart.new # 寫測試的當下還沒有Cart model，但可以假設已經有了（先寫下要做什麼事和預期的結果，再一步步實作，邊做邊跑測試，看每一步實作有無符合預期）
       # Act（操作使用）
-      cart.add_item(2) # 丟2號商品（product_id = 2）進購物車
+      cart.add_sku(2) # 丟2號商品（product_id = 2）進購物車
       # Assert（斷言 看看符不符合預期）
       # expect(cart.empty?).to be false # 因為剛剛有把東西丟進購物車，所以預期現在購物車「不該」是空的
       # 問號方法 有特殊寫法
@@ -36,8 +39,8 @@ RSpec.describe Cart, type: :model do
           # uninitialized constant Cart
         # 建立Cart model後
           # NoMethodError:
-          #   undefined method `add_item' for #<Cart:0x000000013f047a00>
-        # 到Cart model建立add_item方法後
+          #   undefined method `add_sku' for #<Cart:0x000000013f047a00>
+        # 到Cart model建立add_sku方法後
           # NoMethodError:
           #   undefined method `empty?' for #<Cart:0x000000011039ed68>
         # 到Cart model建立empty?方法後
@@ -60,8 +63,8 @@ RSpec.describe Cart, type: :model do
 
       # Act（操作使用）
       # 加3次1號商品到 購物車，加2次2號商品到 購物車
-      3.times { cart.add_item(1) }
-      2.times {cart.add_item(2)}
+      3.times { cart.add_sku(1) }
+      2.times {cart.add_sku(2)}
       # {} 為程式碼區塊（block），結合律比do...end強
 
       # Assert（斷言 看看符不符合預期）
@@ -102,13 +105,17 @@ RSpec.describe Cart, type: :model do
       # database: Ecommerce_website_test
 
       # 廠商跟商品等測試用資料 可以用factory bot幫忙建
-      p1 = FactoryBot.create(:product)
+      # p1 = FactoryBot.create(:product)
       # 甚至可以縮寫成 p1 = create(:product)
       # 但要先在rails_helper裡寫config.include FactoryBot::Syntax::Methods
       # Factory bot wiki usage getting started
+      p1 = FactoryBot.create(:product, :with_skus)
+      # 產生有skus的商品（預設創出來的商品 有2個sku）
 
       # Act（操作使用）
-      cart.add_item(p1.id)
+      # cart.add_sku(p1.id)
+      cart.add_sku(p1.skus.first.id)
+      # 在購物車加入 sku_id 為 第一個商品的第一個sku的id 的商品
 
       # Assert（斷言 看看符不符合預期）
       expect(cart.items.first.product).to be_a Product # 丟一個商品進去 拿出來預期還是一個商品
@@ -124,12 +131,12 @@ RSpec.describe Cart, type: :model do
     it "可以計算整台購物車的總消費金額" do
       # Arrange
       # cart = Cart.new
-      p1 = create(:product, sell_price: 5) 
-      p2 = create(:product, sell_price: 10)
+      p1 = create(:product, :with_skus, sell_price: 5) 
+      p2 = create(:product, :with_skus, sell_price: 10)
 
       # Action
-      3.times { cart.add_item(p1.id) }
-      2.times { cart.add_item(p2.id) }
+      3.times { cart.add_sku(p1.skus.first.id) }
+      2.times { cart.add_sku(p2.skus.first.id) }
 
       # Assert
       expect(cart.total_price).to eq 35
@@ -141,12 +148,12 @@ RSpec.describe Cart, type: :model do
     it "可以將購物車內容轉換成 Hash，以方便存到 Session 裡" do
       # Arrange
       # cart = Cart.new
-      p1 = create(:product) 
-      p2 = create(:product)
+      p1 = create(:product, :with_skus) 
+      p2 = create(:product, :with_skus)
 
       # Action
-      3.times { cart.add_item(p1.id) }
-      2.times { cart.add_item(p2.id) }
+      3.times { cart.add_sku(p1.id) }
+      2.times { cart.add_sku(p2.id) }
 
       # Assert
       expect(cart.serialize).to eq cart_hash # 預期 購物車物件 轉換為 hash 後，會跟 cart_hash方法 回傳的hash內容一樣
@@ -169,8 +176,8 @@ RSpec.describe Cart, type: :model do
     def cart_hash # 購物車物件 轉換成的hash
       {
         "items" => [
-          {"product_id" => 1, "quantity" => 3}, # 1號商品有3個
-          {"product_id" => 2, "quantity" => 2},
+          {"sku_id" => 1, "quantity" => 3}, # 1號商品有3個
+          {"sku_id" => 2, "quantity" => 2},
         ]
       }
       # 購物車是一個物件，在記憶體算有一個位置，但想把其轉換成hash格式，希望hash透過serialize方法（要自己寫）可再轉換為原本的樣子（cart_hash）

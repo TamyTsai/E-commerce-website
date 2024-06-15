@@ -19,11 +19,11 @@ class Cart # 所有的資料都不會存在資料庫中，只會存在這個 物
         @items = items # 有給購物車陣列 new購物車物件時 就生成一台 一開始就有東西的購物車物件
     end
 
-    def add_item(product_id)
+    def add_sku(sku_id)
 
-        found = @items.find { |item| item.product_id == product_id}
+        found = @items.find { |item| item.sku_id == sku_id}
         # item有兩個屬性（商品id 與 數量）
-        # 翻陣列中（@items）中每個元素（item）看裡面 有沒有product_id屬性（cart item的product_id） 等於 此方法傳進來的參數（product_id） 的
+        # 翻陣列中（@items）中每個元素（item）看裡面 有沒有sku_id屬性（cart item的sku_id） 等於 此方法傳進來的參數（sku_id） 的
         # find不是rails資料庫才有的方法，irb就有了，所以雖然這裡是PORO類別，但一樣有得用
             # 2.7.8 :001 > list = ['a', 'b', 'c']  陣列
             # => ["a", "b", "c"] 
@@ -36,8 +36,8 @@ class Cart # 所有的資料都不會存在資料庫中，只會存在這個 物
             found.increment!
             # 對found物件使用increment!方法（自己寫在CartItem的實體方法）
         else # 如果在cart item陣列中沒找到該商品id
-            @items << CartItem.new(product_id)
-            # 在陣列的最後面加上 以CartItem類別新建立物件 元素（作用如同.push(product_id)）
+            @items << CartItem.new(sku_id)
+            # 在陣列的最後面加上 以CartItem類別新建立物件 元素（作用如同.push(sku_id)）
         end
     end
 
@@ -79,19 +79,19 @@ class Cart # 所有的資料都不會存在資料庫中，只會存在這個 物
     # 將 購物車物件 轉換為hash的方法
     def serialize
         # items = [
-        #     {"product_id" => 1, "quantity" => 3},
-        #     {"product_id" => 2, "quantity" => 2},
+        #     {"sku_id" => 1, "quantity" => 3},
+        #     {"sku_id" => 2, "quantity" => 2},
         # ]
 
-        items = @items.map { |item| {"product_id" => item.product_id, "quantity" => item.quantity} }
+        items = @items.map { |item| {"sku_id" => item.sku_id, "quantity" => item.quantity} }
         # .map方法對 集合裡 的 每個元素 進行運算，並收集成 一個新的集合
         # items裡面每個元素都是一個cart item，cart item會有對應的 商品id 及 該商品數量 方法
 
         { "items" => items }
 
         # 跑測試時沒把資料庫清掉 可能會出現非預期結果
-        # -"items" => [{"product_id"=>1, "quantity"=>3}, {"product_id"=>2, "quantity"=>2}],
-    #    +"items" => [{"product_id"=>49, "quantity"=>3}, {"product_id"=>50, "quantity"=>2}],
+        # -"items" => [{"sku_id"=>1, "quantity"=>3}, {"sku_id"=>2, "quantity"=>2}],
+    #    +"items" => [{"sku_id"=>49, "quantity"=>3}, {"sku_id"=>50, "quantity"=>2}],
     end
 
     # 將 hash 轉換回 購物車物件 的方法
@@ -99,8 +99,8 @@ class Cart # 所有的資料都不會存在資料庫中，只會存在這個 物
         # 傳入的引數hash應有的樣子
         # {
         #     "items" => [
-        #       {"product_id" => 1, "quantity" => 3}, # 1號商品有3個
-        #       {"product_id" => 2, "quantity" => 2},
+        #       {"sku_id" => 1, "quantity" => 3}, # 1號商品有3個
+        #       {"sku_id" => 2, "quantity" => 2},
         #     ]
         # }
 
@@ -109,14 +109,14 @@ class Cart # 所有的資料都不會存在資料庫中，只會存在這個 物
         if hash && hash["items"] # 若有傳引數hash 且hash中有item這個key
             # 要將 傳入的hash轉換回 購物車物件
             items = hash["items"].map { |item| # hash["items"]會 對應 一個 由 兩個hash組成 的陣列，item是陣列中的元素，也就是 個別的hash
-                CartItem.new(item["product_id"], item["quantity"]) # item["product_id"]可以拿到item hash 中 product_id key所對應的值
+                CartItem.new(item["sku_id"], item["quantity"]) # item["sku_id"]可以拿到item hash 中 sku_id key所對應的值
             }
             # 用.map方法後 會得到陣列
 
             Cart.new(items) # 將items陣列作為 初始化方法參數 建立Cart物件
 
             # p items
-            # [#<CartItem:0x00000001078252a0 @product_id=1, @quantity=3>, #<CartItem:0x0000000107825278 @product_id=2, @quantity=2>]
+            # [#<CartItem:0x00000001078252a0 @sku_id=1, @quantity=3>, #<CartItem:0x0000000107825278 @sku_id=2, @quantity=2>]
         else # 若沒傳引數hash 或 hash中沒有item這個key（格式錯誤）
             Cart.new # 給一個 全新 購物車物件
         end

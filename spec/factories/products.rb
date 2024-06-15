@@ -10,6 +10,22 @@ FactoryBot.define do
     vendor
     # 縮寫 會去找vendors.rb工廠 幫你建廠商（檔名是複數 這裡是單數）
     category
+
+    trait :with_skus do
+    # 到時候就可以用 FactoryBot.create(:product, :with_skus)建立擁有skus的商品
+    # （平常是用 FactoryBot.create(:product)）
+
+      transient do
+        amount { 2 }
+        # amount預設為2
+      end
+
+      skus { build_list :sku, amount }
+      # build_list：rspec提供的語法
+      # skus { build_list :sku, amount } 預設幫你建立2個sku
+      # 到時候可以用 FactoryBot.create(:product, :with_skus, amount: n)建立擁有n個skus的商品
+    end
+
   end
 end
 
@@ -90,3 +106,97 @@ end
   # created_at: Fri, 14 Jun 2024 00:21:19.262263000 UTC +00:00,
   # updated_at: Fri, 14 Jun 2024 00:21:19.262263000 UTC +00:00,
   # category_id: nil>
+# [1] pry(main)> p1 = FactoryBot.create(:product, :with_skus)
+  # TRANSACTION (0.0ms)  BEGIN
+  # TRANSACTION (0.1ms)  SAVEPOINT active_record_1
+  # Vendor Create (3.2ms)  INSERT INTO "vendors" ("title", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["title", "Sena Emard I"], ["description", "Occaecati a suscipit. Illo nulla iusto. Dolore officia eum."], ["created_at", "2024-06-15 10:30:38.561463"], ["updated_at", "2024-06-15 10:30:38.561463"]]
+  # TRANSACTION (0.1ms)  RELEASE SAVEPOINT active_record_1
+  # TRANSACTION (0.1ms)  SAVEPOINT active_record_1
+  # Category Load (7.5ms)  SELECT "categories".* FROM "categories" WHERE (1 = 1) AND ("categories"."position" IS NOT NULL) ORDER BY "categories"."position" DESC LIMIT $1  [["LIMIT", 1]]
+  # Category Create (12.8ms)  INSERT INTO "categories" ("name", "position", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Byron Mann"], ["position", 1], ["created_at", "2024-06-15 10:30:38.575101"], ["updated_at", "2024-06-15 10:30:38.575101"]]
+  # TRANSACTION (1.7ms)  RELEASE SAVEPOINT active_record_1
+  # TRANSACTION (2.2ms)  SAVEPOINT active_record_1
+  # Product Exists? (2.5ms)  SELECT 1 AS one FROM "products" WHERE "products"."id" IS NOT NULL AND "products"."code" = $1 LIMIT $2  [["code", "ce7b3727d462dc56c7aa"], ["LIMIT", 1]]
+  # Product Exists? (0.3ms)  SELECT 1 AS one FROM "products" WHERE "products"."code" = $1 AND "products"."deleted_at" IS NULL LIMIT $2  [["code", "ce7b3727d462dc56c7aa"], ["LIMIT", 1]]
+  # Product Create (2.2ms)  INSERT INTO "products" ("name", "vendor_id", "list_price", "sell_price", "code", "created_at", "updated_at", "category_id") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"  [["name", "Aleisha Jakubowski"], ["vendor_id", 1], ["list_price", "69.0"], ["sell_price", "52.0"], ["code", "ce7b3727d462dc56c7aa"], ["created_at", "2024-06-15 10:30:38.622856"], ["updated_at", "2024-06-15 10:30:38.622856"], ["category_id", 1]]
+  # Sku Create (1.2ms)  INSERT INTO "skus" ("product_id", "spec", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["product_id", 1], ["spec", "Shelby Keebler"], ["quantity", 8], ["created_at", "2024-06-15 10:30:38.625719"], ["updated_at", "2024-06-15 10:30:38.625719"]]
+  # Sku Create (0.2ms)  INSERT INTO "skus" ("product_id", "spec", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["product_id", 1], ["spec", "Dorinda Koelpin"], ["quantity", 3], ["created_at", "2024-06-15 10:30:38.627220"], ["updated_at", "2024-06-15 10:30:38.627220"]]
+  # Sku Create (0.3ms)  INSERT INTO "skus" ("product_id", "spec", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["product_id", 1], ["spec", "Emile Roberts"], ["quantity", 4], ["created_at", "2024-06-15 10:30:38.627611"], ["updated_at", "2024-06-15 10:30:38.627611"]]
+  # TRANSACTION (0.1ms)  RELEASE SAVEPOINT active_record_1
+  # => #<Product:0x0000000155442220
+  # id: 1,
+  # name: "Aleisha Jakubowski",
+  # vendor_id: 1,
+  # list_price: 0.69e2,
+  # sell_price: 0.52e2,
+  # on_sell: false,
+  # code: "ce7b3727d462dc56c7aa",
+  # deleted_at: nil,
+  # created_at: Sat, 15 Jun 2024 10:30:38.622856000 UTC +00:00,
+  # updated_at: Sat, 15 Jun 2024 10:30:38.622856000 UTC +00:00,
+  # category_id: 1>
+  # -----------
+  #   [2] pry(main)> p1.skus
+  # => [#<Sku:0x00000001602d1e80
+  #   id: 1,
+  #   product_id: 1,
+  #   spec: "Shelby Keebler",
+  #   quantity: 8,
+  #   deleted_at: nil,
+  #   created_at: Sat, 15 Jun 2024 10:30:38.625719000 UTC +00:00,
+  #   updated_at: Sat, 15 Jun 2024 10:30:38.625719000 UTC +00:00>,
+  #  #<Sku:0x000000014565f428
+  #   id: 2,
+  #   product_id: 1,
+  #   spec: "Dorinda Koelpin",
+  #   quantity: 3,
+  #   deleted_at: nil,
+  #   created_at: Sat, 15 Jun 2024 10:30:38.627220000 UTC +00:00,
+  #   updated_at: Sat, 15 Jun 2024 10:30:38.627220000 UTC +00:00>,
+  #  #<Sku:0x00000001456a7278
+  #   id: 3,
+  #   product_id: 1,
+  #   spec: "Emile Roberts",
+  #   quantity: 4,
+  #   deleted_at: nil,
+  #   created_at: Sat, 15 Jun 2024 10:30:38.627611000 UTC +00:00,
+  #   updated_at: Sat, 15 Jun 2024 10:30:38.627611000 UTC +00:00>]
+  # ---------
+  # [3] pry(main)> p1.skus.count
+  #  (3.3ms)  SELECT COUNT(*) FROM "skus" WHERE "skus"."product_id" = $1  [["product_id", 1]]
+  #  => 3
+# [1] pry(main)> p2 = FactoryBot.create(:product, :with_skus, amount: 5)
+  # TRANSACTION (0.0ms)  BEGIN
+  #   TRANSACTION (0.1ms)  SAVEPOINT active_record_1
+  #   Vendor Create (1.3ms)  INSERT INTO "vendors" ("title", "description", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["title", "Demarcus Rowe MD"], ["description", "Voluptas autem qui. Autem reprehenderit enim. Sed ut dolorum."], ["created_at", "2024-06-15 10:38:34.145752"], ["updated_at", "2024-06-15 10:38:34.145752"]]
+  #   TRANSACTION (0.1ms)  RELEASE SAVEPOINT active_record_1
+  #   TRANSACTION (0.1ms)  SAVEPOINT active_record_1
+  #   Category Load (1.4ms)  SELECT "categories".* FROM "categories" WHERE (1 = 1) AND ("categories"."position" IS NOT NULL) ORDER BY "categories"."position" DESC LIMIT $1  [["LIMIT", 1]]
+  #   Category Create (0.2ms)  INSERT INTO "categories" ("name", "position", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"  [["name", "Miles Hintz"], ["position", 1], ["created_at", "2024-06-15 10:38:34.158577"], ["updated_at", "2024-06-15 10:38:34.158577"]]
+  #   TRANSACTION (0.1ms)  RELEASE SAVEPOINT active_record_1
+  #   TRANSACTION (0.2ms)  SAVEPOINT active_record_1
+  #   Product Exists? (2.4ms)  SELECT 1 AS one FROM "products" WHERE "products"."id" IS NOT NULL AND "products"."code" = $1 LIMIT $2  [["code", "0909190f17f3de4bb4f1"], ["LIMIT", 1]]
+  #   Product Exists? (0.3ms)  SELECT 1 AS one FROM "products" WHERE "products"."code" = $1 AND "products"."deleted_at" IS NULL LIMIT $2  [["code", "0909190f17f3de4bb4f1"], ["LIMIT", 1]]
+  #   Product Create (1.2ms)  INSERT INTO "products" ("name", "vendor_id", "list_price", "sell_price", "code", "created_at", "updated_at", "category_id") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"  [["name", "Sen. Sheree Heaney"], ["vendor_id", 2], ["list_price", "53.0"], ["sell_price", "21.0"], ["code", "0909190f17f3de4bb4f1"], ["created_at", "2024-06-15 10:38:34.187021"], ["updated_at", "2024-06-15 10:38:34.187021"], ["category_id", 2]]
+  #   Sku Create (0.7ms)  INSERT INTO "skus" ("product_id", "spec", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["product_id", 2], ["spec", "Jackson Orn"], ["quantity", 7], ["created_at", "2024-06-15 10:38:34.188751"], ["updated_at", "2024-06-15 10:38:34.188751"]]
+  #   Sku Create (0.3ms)  INSERT INTO "skus" ("product_id", "spec", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["product_id", 2], ["spec", "Donny Bashirian"], ["quantity", 3], ["created_at", "2024-06-15 10:38:34.189755"], ["updated_at", "2024-06-15 10:38:34.189755"]]
+  #   Sku Create (0.5ms)  INSERT INTO "skus" ("product_id", "spec", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["product_id", 2], ["spec", "Gov. Bobby Wisoky"], ["quantity", 4], ["created_at", "2024-06-15 10:38:34.190315"], ["updated_at", "2024-06-15 10:38:34.190315"]]
+  #   Sku Create (0.5ms)  INSERT INTO "skus" ("product_id", "spec", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["product_id", 2], ["spec", "Pres. Blaine Strosin"], ["quantity", 2], ["created_at", "2024-06-15 10:38:34.191035"], ["updated_at", "2024-06-15 10:38:34.191035"]]
+  #   Sku Create (0.3ms)  INSERT INTO "skus" ("product_id", "spec", "quantity", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"  [["product_id", 2], ["spec", "Yael Larson"], ["quantity", 2], ["created_at", "2024-06-15 10:38:34.191747"], ["updated_at", "2024-06-15 10:38:34.191747"]]
+  #   TRANSACTION (0.1ms)  RELEASE SAVEPOINT active_record_1
+  # => #<Product:0x0000000117588078
+  #  id: 2,
+  #  name: "Sen. Sheree Heaney",
+  #  vendor_id: 2,
+  #  list_price: 0.53e2,
+  #  sell_price: 0.21e2,
+  #  on_sell: false,
+  #  code: "0909190f17f3de4bb4f1",
+  #  deleted_at: nil,
+  #  created_at: Sat, 15 Jun 2024 10:38:34.187021000 UTC +00:00,
+  #  updated_at: Sat, 15 Jun 2024 10:38:34.187021000 UTC +00:00,
+  #  category_id: 2>
+  # ---------
+  # [4] pry(main)> p2.skus.count
+  #  (2.8ms)  SELECT COUNT(*) FROM "skus" WHERE "skus"."product_id" = $1  [["product_id", 2]]
+  #  => 5

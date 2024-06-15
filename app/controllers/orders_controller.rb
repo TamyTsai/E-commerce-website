@@ -10,8 +10,8 @@ class OrdersController < ApplicationController
         # 訂單資訊（僅收件人等資訊，不含 訂單中商品項目）
         @order = current_user.orders.build(order_params)
 
-        current_user.items.each do |item| # 將當前登入的使用者 的 商品項目 陣列 迭代 出來，一一存進 訂單資訊中
-            @order.order_items.build(sku: 0, quantity: item.quantity)
+        current_cart.items.each do |item| # 將購物車中 的 商品項目 陣列 迭代 出來，一一存進 訂單資訊中
+            @order.order_items.build(sku_id: item.sku_id, quantity: item.quantity)
             # build 建立後在記憶體 還沒寫入資料庫
         end
 

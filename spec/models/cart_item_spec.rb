@@ -9,15 +9,15 @@ RSpec.describe CartItem, type: :model do
   it "每個 Cart Item 都可以計算它自己的金額（小計）" do
     # Arrange
     # cart = Cart.new
-    p1 = create(:product, sell_price: 5) 
+    p1 = create(:product, :with_skus, sell_price: 5) 
     # 用factory bot產生假商品資料
     # 雖然有設定工廠產生的商品假資料 但資料內容其實可以被覆寫
     # 單獨設定售價欄位指定為5
-    p2 = create(:product, sell_price: 10)
+    p2 = create(:product, :with_skus, sell_price: 10)
 
     # Action
-    3.times { cart.add_item(p1.id) }
-    2.times { cart.add_item(p2.id) }
+    3.times { cart.add_sku(p1.skus.first.id) }
+    2.times { cart.add_sku(p2.skus.first.id) }
 
     # Assert
     expect(cart.items.first.total_price).to eq 15 # 1號商品5元 購物車有3個1號商品 所以總共15元
