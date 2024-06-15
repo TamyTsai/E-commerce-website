@@ -29,10 +29,15 @@ Rails.application.routes.draw do
   #           PUT      /cart(.:format)                       carts#update
   #           DELETE   /cart(.:format)                       carts#destroy
   #           POST     /cart(.:format)                       carts#create
-  resource :cart, only: [:show, :destroy] #只需要 看購物車裡面有什麼的頁面 跟 清空購物車的功能
+  resource :cart, only: [:show, :destroy] do#只需要 看購物車裡面有什麼的頁面 跟 清空購物車的功能
   # cart GET      /cart(.:format)                            carts#show
   #      DELETE   /cart(.:format)                            carts#destroy
-
+    collection do # 不用id
+      get :checkout
+      # http動詞 :action（cart controller中）
+      # checkout_cart    GET      /cart/checkout(.:format)         carts#checkout
+    end 
+  end
 
 
   # 若在routes裡想要有 階層 的寫法 可以用namespace

@@ -6,6 +6,10 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: %i[google_oauth2]
 
   
+  has_many :orders
+  # 每個使用者 可有多筆訂單
+
+  
   def self.from_omniauth(auth)
     find_or_create_by(provider: auth.provider, uid: auth.uid) do |user|
     # find_or_create_by(provider: auth.provider, uid: auth.uid)： 用provider及uid欄位當查詢條件，找不到就用猜的，找第一個或建新的

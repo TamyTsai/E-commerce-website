@@ -16,4 +16,7 @@ class CartsController < ApplicationController
         redirect_to root_path, notice: '購物車已清空'
     end
 
+    def checkout # 點擊結帳按鈕連結 對應的action
+    end
+
 end
