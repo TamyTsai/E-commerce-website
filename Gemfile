@@ -46,6 +46,8 @@ gem 'friendly_id', '~> 5.5', '>= 5.5.1'
 gem 'pagy', '~> 6.2'
 # acts_as_list 紀錄position
 gem 'acts_as_list', '~> 1.2', '>= 1.2.1'
+# faraday 用來打API
+gem 'faraday', '~> 2.7', '>= 2.7.12'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
