@@ -43,10 +43,17 @@ Rails.application.routes.draw do
   # orders   GET      /orders(.:format)               orders#index
   #          POST     /orders(.:format)               orders#create
   # order    GET      /orders/:id(.:format)           orders#show
+  # GET 讀取、POST 新增、PUT修改
     collection do # 不用id
       get :confirm
       #  confirm_orders      GET      /orders/confirm(.:format)                     orders#confirm
     end 
+
+    member do # 帶id
+      delete :cancel # /orders/8/cancel
+      # delete 或 post 皆可
+      # cancel_order     DELETE   /orders/:id/cancel(.:format)            orders#cancel
+    end
   end
 
 

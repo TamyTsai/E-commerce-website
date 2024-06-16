@@ -13,7 +13,7 @@ class OrdersController < ApplicationController
         @orders = current_user.orders.order(id: :desc)
     end
 
-    def create
+    def create # 付款reserve
 
         # 訂單資訊（僅收件人等資訊，不含 訂單中商品項目）
         @order = current_user.orders.build(order_params)
@@ -62,7 +62,7 @@ class OrdersController < ApplicationController
                 #     }
                 # }
 
-            if result["returnCode"] == "0000"
+            if result["returnCode"] == "0000" # 若 付款reserve 成功
                 payment_url = result["info"]["paymentUrl"]["web"]
                 redirect_to payment_url
             else
@@ -75,10 +75,10 @@ class OrdersController < ApplicationController
 
     end
 
-    def confirm # 付款完成
+    def confirm # 付款完成 # 付款confirm
         # http://localhost:3000/orders/confirm?transactionId=2024061602141536210
 
-        # 打API傳送資料
+        # 打 確認付款API 傳送資料
         resp = Faraday.post("#{ENV['line_pay_endpoint']}/v2/payments/#{params[:transactionId]}/confirm") do |req|
             # Failed to open TCP connection to :80 (Connection refused - connect(2) for nil port 80)
             # 設定完 ENV['line_pay_endpoint'] 要重開伺服器 要不然這個會變nil 就會變成對本機端打
@@ -94,7 +94,7 @@ class OrdersController < ApplicationController
 
         result = JSON.parse(resp.body)
 
-        if result["returnCode"] == "0000"
+        if result["returnCode"] == "0000" # 若 付款confirm 成功
 
             # 1.變更 訂單 狀態
 
@@ -133,6 +133,38 @@ class OrdersController < ApplicationController
             # transaction_id: "2024061602141555810",
             # created_at: Sun, 16 Jun 2024 03:24:53.943630000 UTC +00:00,
             # updated_at: Sun, 16 Jun 2024 03:25:23.725032000 UTC +00:00>
+    end
+
+    def cancel # 取消訂單按鈕 對應之action # 退款
+        # 抓到要取消的訂單
+        @order = current_user.orders.find(params[:id])
+
+        if @order.paid? # 如果訂單為 已付款 狀態
+            # 打 退款API 傳送資料
+            resp = Faraday.post("#{ENV['line_pay_endpoint']}/v2/payments/#{@order.transaction_id}/refund") do |req|
+                # Failed to open TCP connection to :80 (Connection refused - connect(2) for nil port 80)
+                # 設定完 ENV['line_pay_endpoint'] 要重開伺服器 要不然這個會變nil 就會變成對本機端打
+                req.headers['Content-Type'] = 'application/json'
+                req.headers['X-LINE-ChannelId'] = ENV['line_pay_channel_id']
+                req.headers['X-LINE-ChannelSecret'] = ENV['line_pay_channel_secret_key']
+            end
+
+            # 收API回應資料
+            # 用內建的ruby內建的parse解析回應的結果
+            result = JSON.parse(resp.body)
+
+            if result["returnCode"] == "0000" # 若退款成功
+                @order.cancel! # 將訂單狀態變更為 已取消
+                redirect_to orders_path, notice: "訂單（訂單編號：#{@order.num}）已取消，並完成退款！"
+            else
+                redirect_to orders_path, notice: '退款發生錯誤'
+            end
+
+        else # 如果訂單非 已付款 狀態
+            @order.cancel! # 將訂單 取消 狀態變更為 已取消
+            redirect_to orders_path, notice: "訂單（訂單編號：#{@order.num}）已取消！"
+        end
+
     end
 
     private
