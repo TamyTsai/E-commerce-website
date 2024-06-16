@@ -16,6 +16,10 @@
     <!-- 會去找frontend（webpack資料夾）下的packs的application.js（此檔案已引入stimulus.js及 所有 前台 的 styles及scripts） -->
     <!-- javascript_include_tag 'shared', 'data-turbolinks-track': 'reload' -->
     <!-- webpacker無法編譯時，那就交給 Sprockets 編譯，採javascript_include_tag寫法 -->
+
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css"> -->
+		<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/css/bulma-carousel.min.css"> -->
+
   </head>
 
   <body>
@@ -31,5 +35,8 @@
     <%= yield %>
     
     <%= render 'shared/frontend/footer' %>
+
+    <script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.3/dist/js/bulma-carousel.min.js"></script>
+
   </body>
 </html>
