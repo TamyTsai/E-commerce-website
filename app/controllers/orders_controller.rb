@@ -13,6 +13,7 @@ class OrdersController < ApplicationController
 
         # 訂單資訊（僅收件人等資訊，不含 訂單中商品項目）
         @order = current_user.orders.build(order_params)
+        # 成立訂單
 
         current_cart.items.each do |item| # 將購物車中 的 商品項目 陣列 迭代 出來，一一存進 訂單資訊中
             @order.order_items.build(sku_id: item.sku_id, quantity: item.quantity)
@@ -21,25 +22,51 @@ class OrdersController < ApplicationController
 
         if @order.save # 若成功寫入資料庫
 
+            # 打API傳送資料
             resp = Faraday.post("#{ENV['line_pay_endpoint']}/v2/payments/request") do |req|
+                # Failed to open TCP connection to :80 (Connection refused - connect(2) for nil port 80)
+                # 設定完 ENV['line_pay_endpoint'] 要重開伺服器 要不然這個會變nil 就會變成對本機端打
                 req.headers['Content-Type'] = 'application/json'
                 req.headers['X-LINE-ChannelId'] = ENV['line_pay_channel_id']
                 req.headers['X-LINE-ChannelSecret'] = ENV['line_pay_channel_secret_key']
                 req.body = {
-                    productName: "五百倍大平台",
+                    productName: "電商網站",
                     # amount: current_cart.total_price.to_i,
                     amount: 500,
                     currency: "TWD",
                     confirmUrl: "http://localhost:3000/orders/confirm", # 交易成功後頁面要跳轉到哪 資訊會打回來這個地方
                     # 寫API路徑 專門去接line pay打回來的這包東西
+                    # http://localhost:3000/orders/confirm?transactionId=2024061602141530410
                     orderId: @order.num
                 }.to_json
             end
 
-            redirect_to root_path, notice: 'ok'
-        else
-            render 'carts/checkout'
-            # 借carts/checkout.html.erb這個view來渲染頁面
+            # 收API回應資料
+            # 用內建的ruby內建的parse解析回應的結果
+            result = JSON.parse(resp.body)
+            # 回應結果範例：
+                # {
+                #     "returnCode": "0000",
+                #     "returnMessage": "Success.",
+                #     "info": {
+                #         "paymentUrl": {
+                #             "web": "https://sandbox-web-pay.line.me/web/payment/wait?transactionReserveId=SURMMzh3Q1J1WjhBZjk5YkFPbzA1VmtUZ2FUcXo4TmdWa29rRXF6K0NsbVVJd0dvS01BZGdreGVQZ2k3cmpNMg",
+                #             "app": "line://pay/payment/SURMMzh3Q1J1WjhBZjk5YkFPbzA1VmtUZ2FUcXo4TmdWa29rRXF6K0NsbVVJd0dvS01BZGdreGVQZ2k3cmpNMg"
+                #         },
+                #         "transactionId": 2024061602141330010,
+                #         "paymentAccessToken": "356238494583"
+                #     }
+                # }
+
+            if result["returnCode"] == "0000"
+                payment_url = result["info"]["paymentUrl"]["web"]
+                redirect_to payment_url
+            else
+                flash[:notice] = '付款發生錯誤'
+                render 'carts/checkout'
+                # 借carts/checkout.html.erb這個view來渲染頁面
+            end
+
         end
 
     end
