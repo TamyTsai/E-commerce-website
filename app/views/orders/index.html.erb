@@ -1,0 +1,30 @@
+<section class="section">
+    <table class="table is-fullwidth">
+        <thead>
+            <tr>
+                <th>日期</th>
+                <th>訂單編號</th>
+                <th>金額</th>
+                <th>狀態</th>
+                <th>功能</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @orders.each do |order| %>
+            <tr>
+                <td><%= order.created_at %></td>
+                <td><%= order.num %></td>
+                <td><%= order.total_price %></td>
+                <!-- 自己去model寫total_price方法 -->
+                <td><%= order.state %></td>
+                <td>
+                    <%= link_to "付款", '#', class: 'button is-primary is-small' if order.may_pay? %>
+                    <!-- 處於 待付款 狀態（此狀態使用pay!方法） 的訂單 才會 付款按鈕-->
+                    <%= link_to "取消", '#', class: 'button is-danger is-small' if order.may_cancel? %>
+                    <!-- 訂單已成立待付款、已付款都可以取消，但一個不用退款，一個要退款 -->
+                </td>
+            </tr>
+            <% end %>
+        </tbody>
+    </table>
+</section>

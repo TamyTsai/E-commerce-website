@@ -39,9 +39,10 @@ Rails.application.routes.draw do
     end 
   end
 
-  resource :orders, except: [:new, :edit, :update, :destroy] do # 結帳畫面 取代order new的頁面
-  # orders   GET      /orders(.:format)                         orders#show
-  #          POST     /orders(.:format)                         orders#create
+  resources :orders, except: [:new, :edit, :update, :destroy] do # 結帳畫面 取代order new的頁面
+  # orders   GET      /orders(.:format)               orders#index
+  #          POST     /orders(.:format)               orders#create
+  # order    GET      /orders/:id(.:format)           orders#show
     collection do # 不用id
       get :confirm
       #  confirm_orders      GET      /orders/confirm(.:format)                     orders#confirm

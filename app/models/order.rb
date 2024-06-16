@@ -38,6 +38,17 @@ class Order < ApplicationRecord
     end
   end
 
+  def total_price # 所有訂單的總價
+    order_items.reduce(0) { |sum, item| sum = sum + item.total_price }
+    # has_many :order_items 所以有 order_items可用
+    # sum = 可省略
+    # reduce()對集合裡 的 每個元素 進行運算，並將 所有的運算結果 歸納成 一個 單一結果
+    # 同意詞：inject
+    # reduce(0) 初始值為0（沒有給預設值的話 會拿第一個元素（item）當預設值 但這裡item不能拿來加總）
+    # sum, item ：累加後之值、每個項目
+    # 每次計算完就會回傳sum，然後再做下一次的迴圈，最後得到歸納值
+  end
+
   private
   # 產生訂單編號
   def generate_order_num

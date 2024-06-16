@@ -9,6 +9,10 @@ class OrdersController < ApplicationController
     before_action :authenticate_user!
     # authenticate_user!為devise的方法，會檢查當前使用者登入狀況 沒有登入的就踢到登入頁面
 
+    def index
+        @orders = current_user.orders.order(id: :desc)
+    end
+
     def create
 
         # 訂單資訊（僅收件人等資訊，不含 訂單中商品項目）
