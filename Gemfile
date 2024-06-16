@@ -48,6 +48,8 @@ gem 'pagy', '~> 6.2'
 gem 'acts_as_list', '~> 1.2', '>= 1.2.1'
 # faraday 用來打API
 gem 'faraday', '~> 2.7', '>= 2.7.12'
+# aasm 狀態機
+gem 'aasm', '~> 5.5'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

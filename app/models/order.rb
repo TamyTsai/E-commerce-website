@@ -1,4 +1,7 @@
 class Order < ApplicationRecord
+
+  include AASM
+
   belongs_to :user
   # 每張訂單 屬於 某個使用者
   has_many :order_items
@@ -9,6 +12,25 @@ class Order < ApplicationRecord
   before_create :generate_order_num
   # 在 訂單 建立之前 產生訂單編號
   # 更新（update）的時候 不會重複產生
+
+  aasm column: 'state' do # 要跟aasm說我們儲存狀態的欄位名稱為何 否則預設會去找aasm欄位
+    state :pending, initial: true
+    # 初始狀態 處理中（待付款）
+    state :paid, :delivered, :cancelled
+    # 已付款 運送中（已出貨） 已取消
+
+    event :pay do # 付款
+      transitions from: :pending, to: :paid
+    end
+
+    event :deliver do
+      transitions from: :paid, to: :delivered
+    end
+
+    event :cancel do
+      transitions from: [:pending, :paid, :delivered], to: :cancelled
+    end
+  end
 
   private
   # 產生訂單編號

@@ -71,6 +71,36 @@ class OrdersController < ApplicationController
 
     end
 
+    def confirm # 付款完成
+        # http://localhost:3000/orders/confirm?transactionId=2024061602141536210
+
+        # 打API傳送資料
+        resp = Faraday.post("#{ENV['line_pay_endpoint']}/v2/payments/#{params[:transactionId]}/confirm") do |req|
+            # Failed to open TCP connection to :80 (Connection refused - connect(2) for nil port 80)
+            # 設定完 ENV['line_pay_endpoint'] 要重開伺服器 要不然這個會變nil 就會變成對本機端打
+            req.headers['Content-Type'] = 'application/json'
+            req.headers['X-LINE-ChannelId'] = ENV['line_pay_channel_id']
+            req.headers['X-LINE-ChannelSecret'] = ENV['line_pay_channel_secret_key']
+            req.body = {
+                # amount: current_cart.total_price.to_i,
+                amount: 500,
+                currency: "TWD",
+            }.to_json
+        end
+
+        result = JSON.parse(resp.body)
+
+        if result["returnCode"] == "0000"
+            # 1.變更 訂單 狀態
+            # 2.清空 購物車
+            redirect_to root_path, notice: '付款已完成'
+        else
+            redirect_to root_path, notice: '付款發生錯誤'
+        end
+
+        render html: id
+    end
+
     private
 
     def order_params # 資料清洗
