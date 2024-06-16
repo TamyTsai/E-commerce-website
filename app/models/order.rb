@@ -21,6 +21,12 @@ class Order < ApplicationRecord
 
     event :pay do # 付款
       transitions from: :pending, to: :paid
+
+      before do |args| # 在pay動作之前要做的事
+        # 執行pay!動作時 傳入的參數會進args
+        self.transaction_id = args[:transaction_id]
+        self.paid_at = Time.now
+      end
     end
 
     event :deliver do

@@ -91,14 +91,44 @@ class OrdersController < ApplicationController
         result = JSON.parse(resp.body)
 
         if result["returnCode"] == "0000"
+
             # 1.變更 訂單 狀態
+
+            # 先抓要被變更的訂單（透過回傳的資料）
+            order_id = result["info"]["orderId"] # 商家在付款 reserve 時傳送的訂單編號
+            transaction_id = result["info"]["transactionId"] # 付款 reserve 後，做為 結果 所收到的 交易編號
+            # 退款需要transaction id
+
+            order = current_user.orders.find_by(num: order_id)
+            order.pay!(transaction_id: transaction_id) # 使用aasm狀態機改變狀態，並且同時將transaction_id寫入 orders資料表transaction_id欄位（要在狀態機model寫before）
+
             # 2.清空 購物車
+            session[:cart_tamy] = nil
+
             redirect_to root_path, notice: '付款已完成'
         else
             redirect_to root_path, notice: '付款發生錯誤'
         end
 
-        render html: id
+        # render html: id
+
+        # rails c
+            # [1] pry(main)> Order.find_by(num: 'dd7b633e7a')
+            # NOTICE:  identifier "spring app    | 電商網站 | started 0 secs ago | development mode" will be truncated to "spring app    | 電商網站 | started 0 secs ago | development"
+            # Order Load (0.5ms)  SELECT "orders".* FROM "orders" WHERE "orders"."num" = $1 LIMIT $2  [["num", "dd7b633e7a"], ["LIMIT", 1]]
+            # => #<Order:0x00000001602f72e8
+            # id: 8,
+            # num: "dd7b633e7a",
+            # recipient: "Carry",
+            # tel: "0912345678",
+            # address: "臺北市火星區",
+            # note: "",
+            # user_id: 1,
+            # state: "paid",
+            # paid_at: Sun, 16 Jun 2024 03:25:23.723719000 UTC +00:00,
+            # transaction_id: "2024061602141555810",
+            # created_at: Sun, 16 Jun 2024 03:24:53.943630000 UTC +00:00,
+            # updated_at: Sun, 16 Jun 2024 03:25:23.725032000 UTC +00:00>
     end
 
     private
