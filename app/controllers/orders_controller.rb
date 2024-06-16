@@ -167,6 +167,82 @@ class OrdersController < ApplicationController
 
     end
 
+    def pay # 手機 按下 付款按鈕 對應之action
+        # 抓到要付款的訂單
+        @order = current_user.orders.find(params[:id])
+
+        # 打API傳送資料
+        resp = Faraday.post("#{ENV['line_pay_endpoint']}/v2/payments/request") do |req|
+            # Failed to open TCP connection to :80 (Connection refused - connect(2) for nil port 80)
+            # 設定完 ENV['line_pay_endpoint'] 要重開伺服器 要不然這個會變nil 就會變成對本機端打
+            req.headers['Content-Type'] = 'application/json'
+            req.headers['X-LINE-ChannelId'] = ENV['line_pay_channel_id']
+            req.headers['X-LINE-ChannelSecret'] = ENV['line_pay_channel_secret_key']
+            req.body = {
+                productName: "電商網站",
+                # amount: @order.total_price.to_i,
+                amount: 500,
+                currency: "TWD",
+                confirmUrl: "http://localhost:3000/orders/#{@order.id}/pay_confirm", # 交易成功後頁面要跳轉到哪 資訊會打回來這個地方
+                # 寫API路徑 專門去接line pay打回來的這包東西
+                # http://localhost:3000/orders/confirm?transactionId=2024061602141530410
+                orderId: @order.num
+            }.to_json
+        end
+
+        # 收API回應資料
+        # 用內建的ruby內建的parse解析回應的結果
+        result = JSON.parse(resp.body)
+
+        if result["returnCode"] == "0000" # 若 付款reserve 成功
+            payment_url = result["info"]["paymentUrl"]["web"]
+            redirect_to payment_url
+        else
+            redirect_to orders_path, notice: '付款發生錯誤'
+        end
+    end
+
+    def pay_confirm # 以 手機 付款完成後 api打回來的地方
+        @order = current_user.orders.find(params[:id])
+
+        # 打 確認付款API 傳送資料
+        resp = Faraday.post("#{ENV['line_pay_endpoint']}/v2/payments/#{params[:transactionId]}/confirm") do |req|
+            # Failed to open TCP connection to :80 (Connection refused - connect(2) for nil port 80)
+            # 設定完 ENV['line_pay_endpoint'] 要重開伺服器 要不然這個會變nil 就會變成對本機端打
+            req.headers['Content-Type'] = 'application/json'
+            req.headers['X-LINE-ChannelId'] = ENV['line_pay_channel_id']
+            req.headers['X-LINE-ChannelSecret'] = ENV['line_pay_channel_secret_key']
+            req.body = {
+                # amount: @order.total_price.to_i,
+                amount: 500,
+                currency: "TWD",
+            }.to_json
+        end
+
+        result = JSON.parse(resp.body)
+
+        if result["returnCode"] == "0000" # 若 付款confirm 成功
+
+            # 1.變更 訂單 狀態
+
+            # 先抓要被變更的訂單（透過回傳的資料）（本action 有先抓過 所以這裡不用）
+            # order_id = result["info"]["orderId"] # 商家在付款 reserve 時傳送的訂單編號
+            transaction_id = result["info"]["transactionId"] # 付款 reserve 後，做為 結果 所收到的 交易編號
+            # 退款需要transaction id
+
+            # order = current_user.orders.find_by(num: order_id)
+            @order.pay!(transaction_id: transaction_id) # 使用aasm狀態機改變狀態，並且同時將transaction_id寫入 orders資料表transaction_id欄位（要在狀態機model寫before）
+
+            # 2.清空 購物車（這個階段沒有購物車了）
+            # session[:cart_tamy] = nil
+
+            redirect_to orders_path, notice: '付款已完成'
+        else
+            redirect_to orders_path, notice: '付款發生錯誤'
+        end
+
+    end
+
     private
 
     def order_params # 資料清洗

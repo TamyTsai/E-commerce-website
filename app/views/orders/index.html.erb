@@ -18,7 +18,7 @@
                 <!-- 自己去model寫total_price方法 -->
                 <td><%= order.state %></td>
                 <td>
-                    <%= link_to "付款", '#', class: 'button is-primary is-small' if order.may_pay? %>
+                    <%= link_to "付款", pay_order_path(order), method: 'post', data: {confirm: "是否確認付款？"}, class: 'button is-primary is-small' if order.may_pay? %>
                     <!-- 處於 待付款 狀態（此狀態使用pay!方法） 的訂單 才會 付款按鈕-->
                     <%= link_to "取消", cancel_order_path(order), method: 'delete', data: {confirm: "確認取消該筆訂單？\n若訂單已付款，將進行退款"}, class: 'button is-danger is-small' if order.may_cancel? %>
                     <!-- 訂單已成立待付款、已付款都可以取消，但一個不用退款，一個要退款 -->

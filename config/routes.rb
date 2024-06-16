@@ -49,10 +49,14 @@ Rails.application.routes.draw do
       #  confirm_orders      GET      /orders/confirm(.:format)                     orders#confirm
     end 
 
-    member do # 帶id
+    member do # 帶id（要知道 要取消哪一筆訂單 為哪一筆訂單付款）
       delete :cancel # /orders/8/cancel
       # delete 或 post 皆可
       # cancel_order     DELETE   /orders/:id/cancel(.:format)            orders#cancel
+      post :pay
+      # pay_order    POST     /orders/:id/pay(.:format)                   orders#pay
+      get :pay_confirm
+      # pay_confirm_order     GET      /orders/:id/pay_confirm(.:format)        orders#pay_confirm
     end
   end
 
