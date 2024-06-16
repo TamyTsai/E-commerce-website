@@ -26,6 +26,25 @@ class OrdersController < ApplicationController
 
         if @order.save # 若成功寫入資料庫
 
+            # linepay = LinepayService.new('/payments/request')
+            # linepay.perform({
+            #     productName: "電商網站",
+            #     # amount: current_cart.total_price.to_i,
+            #     amount: 500,
+            #     currency: "TWD",
+            #     confirmUrl: "http://localhost:3000/orders/confirm", # 交易成功後頁面要跳轉到哪 資訊會打回來這個地方
+            #     # 寫API路徑 專門去接line pay打回來的這包東西
+            #     # http://localhost:3000/orders/confirm?transactionId=2024061602141530410
+            #     orderId: @order.num
+            # })
+
+            # if linepay.success?
+            #     redirect_to linepay.payment_url
+            # else
+            #     flash[:notice] = '付款發生錯誤'
+            #     render 'carts/checkout'
+            # end
+
             # 打API傳送資料
             resp = Faraday.post("#{ENV['line_pay_endpoint']}/v2/payments/request") do |req|
                 # Failed to open TCP connection to :80 (Connection refused - connect(2) for nil port 80)
@@ -136,6 +155,21 @@ class OrdersController < ApplicationController
     end
 
     def cancel # 取消訂單按鈕 對應之action # 退款
+        # if @order.paid?
+        #     linepay = LinepayService.new("/payments/#{@order.transaction_id}/refund")
+        #     linepay.perform(refundAmount: @order.total_price.to_i)
+        #     if linepay.success?
+        #         @order.cancel! # 將訂單狀態變更為 已取消
+        #         redirect_to orders_path, notice: "訂單（訂單編號：#{@order.num}）已取消，並完成退款！"
+        #     else
+        #         redirect_to orders_path, notice: '退款發生錯誤'
+        #     end
+        # else # 如果訂單非 已付款 狀態
+        #       @order.cancel! # 將訂單 取消 狀態變更為 已取消
+        #       redirect_to orders_path, notice: "訂單（訂單編號：#{@order.num}）已取消！"
+        # end
+
+
         # 抓到要取消的訂單
         @order = current_user.orders.find(params[:id])
 

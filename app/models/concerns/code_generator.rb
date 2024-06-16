@@ -2,6 +2,9 @@
 module CodeGenerator
     extend ActiveSupport::Concern
 
+    # Rails 有提供 Concern 的功能，可以把「共同的行為」集中起來，有需要的再「引入」，而不使用繼承。就是「不要為了想要會飛就去當鳥的小孩」的概念
+    # 其實 Concern 就是 Ruby 裡 Module 的概念
+
     included do # 引入本模組者 就會自動執行以下程式碼
         extend FriendlyId # 擴充 FriendlyId模組 中的方法，變成 類別方法（Product類別 的 方法）
         # friendly_id :name, use: :slugged

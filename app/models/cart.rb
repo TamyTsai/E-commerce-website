@@ -2,6 +2,8 @@
 # 純Ruby類別，並未如其他model一樣繼承ApplicationRecord的許多資料庫功能
 # 不是所有的model都需要資料庫
 # 所有的 資料、狀態、行為 都不會存在資料庫中，只會存在 類別 裡面
+# 在 Rails 專案中，大部份的類別幾乎都繼承之 Rails 內建的上層類別，例如 Model 是繼承自 ActiveModel::Base、Controller 是繼承自 ActionController::Base …等，
+# 但其實並不是所有類別都必須要這樣設計。我們可以透過寫一些簡單的 Ruby 類別，把一些判斷的邏輯放在裡面。這樣簡單的純 Ruby 類別，通常又稱之 PORO（Plain Old Ruby Object）。
 
 class Cart # 所有的資料都不會存在資料庫中，只會存在這個 物件 裡面
 
