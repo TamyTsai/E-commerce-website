@@ -34,6 +34,11 @@ module EcommerceWebsite
     # in config/environments, which are processed later.
     #
     # config.time_zone = "Central Time (US & Canada)"
+    config.time_zone = 'Asia/Taipei'
+    # 時區顯示方式設定為亞洲臺北
+    # 改設定檔後 要重新啟動伺服器 才會生效
+    # 2024-06-01 20:23:03 +0800
+
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end
