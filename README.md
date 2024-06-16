@@ -89,11 +89,11 @@ $ rails db:migrate
 ```
 ### 取得專案
 ```bash
-$ git clone 
+$ git clone https://github.com/TamyTsai/E-commerce-website.git
 ```
 ### 移動到專案內
 ```bash
-$ cd 
+$ cd E-commerce-website
 ```
 ### 安裝相關套件
 ```bash
