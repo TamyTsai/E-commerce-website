@@ -23,7 +23,7 @@
 - 使用figaro套件，設定全域環境變數，並避免內含機敏資訊之檔案被git追蹤
 - 使用pagy套件，製作分頁功能
 - 使用acts as list與SortableJS套件，製作後台系統商品分類拖拉功能
-- 串接Line Pay金流服務
+- 串接LINE Pay金流服務
 - 採TDD測試驅動開發，遵循3A原則（Arrange、Act、Assert），並採工廠設計模式（factory design pattern）
   - 使用RSpec進行測試
   - 使用Factory Bot及faker套件產生測試用資料
