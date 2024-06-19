@@ -166,4 +166,4 @@ http://localhost:3000/
 
 ## 第三方服務
 - Google第三方登入
-- LinePay金流串接
+- LINE Pay金流串接
