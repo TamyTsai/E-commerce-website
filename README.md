@@ -87,14 +87,14 @@ $ rails db:create
 ```bash
 $ rails db:migrate
 ```
-### 取得專案
+<!-- ### 取得專案
 ```bash
 $ git clone https://github.com/TamyTsai/E-commerce-website.git
 ```
 ### 移動到專案內
 ```bash
 $ cd E-commerce-website
-```
+```  -->
 ### 安裝相關套件
 ```bash
 $ bundle install
